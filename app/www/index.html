@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; script-src 'self' https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js 'unsafe-eval'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; script-src 'self' 'unsafe-eval'">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Fleamaster</title>
-    <script type="text/javascript" src="cordova.js"></script>
+    <title>FleaMaster</title>
+    <!-- CSS files have to be added here -->
+    <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <div id="app">
+        <!-- the components -->
+        <login-page></login-page>
+    </div>
+    <!-- VueJS -->
+    <script type="text/javascript" src="js/vue.min.js"></script>
+    <!-- compiled bundle file -->
+    <script type="text/javascript" src="js/bundle.js"></script>
+    <!-- JS index -->
+    <script type="text/javascript" src="js/index.js"></script>
+    <!-- cordova -->
+    <script type="text/javascript" src="cordova.js"></script>
 </body>
 </html>

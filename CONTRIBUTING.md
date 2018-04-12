@@ -29,6 +29,14 @@ Contributing generally can be done in two ways - either contributing with the cr
 - document your code!
 
 
+#### Code preparation and build process
+- run `npm install`
+- run `npm install -g rollup` once (skip this, if already done)
+- enter app directory with `cd app`
+- run `rollup -c`
+- now you can view the app locally within the browser or with `cordova build android` / `cordova run android`
+- on every change, you'll need to re-run `rollup -c`
+
 #### Coding style
 ###### Variables declaration
 ```javascript

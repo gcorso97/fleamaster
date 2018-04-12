@@ -1,2 +1,6 @@
-platforms/
+app/platforms/
+app/node_modules/
 node_modules/
+app/www/js/bundle.js
+app/www/css/bundle.css
+app/package-lock.json
