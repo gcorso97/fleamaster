@@ -29,5 +29,8 @@
     "platforms": [
       "android"
     ]
+  },
+  "devDependencies": {
+    "rollup-plugin-serve": "^0.4.2"
   }
 }
