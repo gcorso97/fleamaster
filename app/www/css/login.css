@@ -50,6 +50,20 @@ body{
 #loginBtn{
     background-color: #595959;
     border-radius: 25px;
+}
 
+#personalData {
+  margin-top: 2em;
+}
 
+#adressData {
+  margin-top: 2em;
+}
+
+#credentials {
+  margin-top: 2em;
+}
+
+#registration {
+  background-color: pink;
 }

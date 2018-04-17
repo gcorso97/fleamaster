@@ -1,5 +1,6 @@
 import VueResource from 'vue-resource';
 import LoginPage from './../components/login-page.vue';
+import RegistrationPage from './../components/registration-page.vue'
 
 Vue.use(VueResource);
 
@@ -9,6 +10,7 @@ Vue.http.options.credentials = true;
 var vm = new Vue({
     el: '#app',
     components: {
-        'login-page': LoginPage
+        'login-page': LoginPage,
+        'registration-page': RegistrationPage
     }
 });
