@@ -22,15 +22,14 @@ export default {
             mail: '',
             password: '',
             regExpMail: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-
-
         };
     },
+
     methods: {
       validateInput: function () {
-        var self = this;
-        var mailOk = self.validEmail(self.mail);
-        var passwordOk = self.validPasswort(self.password);
+        var self = this,
+            mailOk = self.validEmail(self.mail),
+            passwordOk = self.validPasswort(self.password);
         if (mailOk && passwordOk) {
             loginBtn.disabled = false;
         } else {
@@ -44,8 +43,8 @@ export default {
       },
 
     validPasswort:function(password) {
-      var self = this;
-      var passwordLength = self.password.length;
+      var self = this,
+          passwordLength = self.password.length;
         if (passwordLength >= 6) {
           return true;
         } else {
@@ -55,7 +54,6 @@ export default {
 
         login: function() {
             var self = this;
-
             self.$http.post(RESTURL + '/login', {mail: self.mail, password: self.password}).then(function(response) {
                 console.log(response);
             }, function(response) {
