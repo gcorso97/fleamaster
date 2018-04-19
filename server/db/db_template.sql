@@ -16,21 +16,21 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 Create table 'shoppingCart'(
   'userid' smallint,
-  'artikelid' smallint,
+  'articleid' smallint,
   'totalprice' float,
   foreign key userid references user(userid),
-  foreign key artikelid references artikel(artikelid),
-  primary key (userid,artikelid),
+  foreign key articleid references article(articleid),
+  primary key (userid,articleid),
 );
 
-Create table 'artikel'(
-  'artikelid' smallint primary key,
+Create table 'article'(
+  'articleid' smallint primary key,
   'provider' smallint,
-  'bezeichnung' varchar(50),
+  'articlename' varchar(50),
   'description' varchar(255),
   'categoryid' smallint,
-  'preis' float,
-  foreign key categoryid references artikel(categoryid),
+  'price' float,
+  foreign key categoryid references article(categoryid),
   foreign key provider references user(userid)
 );
 
