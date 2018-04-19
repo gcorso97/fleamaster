@@ -8,10 +8,11 @@
             </div>
             <div id="loginLinks" class="centered">
                 <a href="#">Passwort zurücksetzen</a>
-                <a href="#">Registieren</a>
             </div>
+            <router-link to="/register">Registrieren</router-link>
             <button id="loginBtn" class="centered" disabled>Login</button>
         </form>
+        <router-view></router-view>
     </div>
 </template>
 

@@ -30,5 +30,6 @@
             </div>
             <button id="registerBtn" class="centered" disabled>Login</button>
         </form>
+        <router-view></router-view>
     </div>
 </template>
