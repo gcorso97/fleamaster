@@ -1,18 +1,17 @@
 <template>
-    <div id="login">
+    <div id="login" class="faded mainContainer">
         <form @submit.prevent="login">
             <div id="logoImage" class="centered"></div>
             <div id="loginInput" class="centered">
-                <input class="centered" type="text" v-model="mail" id="mail" v-on:input="validateInput"/>
-                <input class="centered" type="password" v-model="password" id="password" v-on:input="validateInput"/>
+                <input class="inputField" type="text" v-model="mail" id="mail" v-on:input="validateInput" placeholder="Email"/>
+                <input class="inputField" type="password" v-model="password" id="password" v-on:input="validateInput" placeholder="Passwort"/>
             </div>
             <div id="loginLinks" class="centered">
-                <a href="#">Passwort zurücksetzen</a>
+                <a class="linkFormat" href="#">Passwort zurücksetzen</a>
+                <router-link class="linkFormat" to="/register">Registrieren</router-link>
             </div>
-            <router-link to="/register">Registrieren</router-link>
-            <button id="loginBtn" class="centered" disabled>Login</button>
+            <button class="centered buttonForm buttonShadow" disabled>Login</button>
         </form>
-        <router-view></router-view>
     </div>
 </template>
 

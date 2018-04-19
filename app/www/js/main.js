@@ -2,6 +2,7 @@ import VueResource from 'vue-resource';
 import App from './../components/App.vue';
 import LoginPage from './../components/login-page.vue';
 import RegistrationPage from './../components/registration-page.vue';
+import WelcomePage from './../components/welcome-page.vue';
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
@@ -13,7 +14,8 @@ Vue.http.options.credentials = true;
 var router = new VueRouter({
     routes: [
         {path: '/', component: LoginPage},
-        {path: '/register', component: RegistrationPage}
+        {path: '/register', component: RegistrationPage},
+        {path: '/welcome', component: WelcomePage}
     ]
 });
 
