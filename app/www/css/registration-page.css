@@ -1,0 +1,25 @@
+/* #personalData {
+  margin-top: 2em;
+}
+
+#adressData {
+  margin-top: 2em;
+}
+
+#credentials {
+  margin-top: 2em;
+} */
+#registration input{
+    height: 3px;
+}
+
+#personalData select{
+    background-color: white;
+    width: 140px;
+    height: 20px;
+    font-size: 10.2px;
+    border-radius: 5px;
+    border: none;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
