@@ -28,7 +28,8 @@ var vm = new Vue({
         'app': App,
         'login-page': LoginPage,
         'registration-page': RegistrationPage,
-        'addItem-page': AddItemPage
+        'addItem-page': AddItemPage,
+        'welcome-page': WelcomePage
     },
     router: router,
     render: function(h) {

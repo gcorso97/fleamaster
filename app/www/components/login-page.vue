@@ -10,6 +10,7 @@
                 <a class="linkFormat" href="#">Passwort zurücksetzen</a>
                 <router-link class="linkFormat" to="/register">Registrieren</router-link>
                 <router-link class="linkFormat" to="/addItem">TestLink</router-link>
+                <router-link class="linkFormat" to="/welcome">MainLink</router-link>
             </div>
             <button class="centered buttonForm buttonShadow" disabled id="loginBtn">Login</button>
         </form>
