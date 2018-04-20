@@ -11,7 +11,7 @@
                 <router-link class="linkFormat" to="/register">Registrieren</router-link>
                 <router-link class="linkFormat" to="/addItem">TestLink</router-link>
             </div>
-            <button class="centered buttonForm buttonShadow" disabled>Login</button>
+            <button class="centered buttonForm buttonShadow" disabled id="loginBtn">Login</button>
         </form>
         <transition name="fade">
             <router-view></router-view>
