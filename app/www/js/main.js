@@ -3,6 +3,7 @@ import App from './../components/App.vue';
 import LoginPage from './../components/login-page.vue';
 import RegistrationPage from './../components/registration-page.vue';
 import WelcomePage from './../components/welcome-page.vue';
+import AddItemPage from './../components/addItem-page.vue';
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
@@ -15,7 +16,8 @@ var router = new VueRouter({
     routes: [
         {path: '/', component: LoginPage},
         {path: '/register', component: RegistrationPage},
-        {path: '/welcome', component: WelcomePage}
+        {path: '/welcome', component: WelcomePage},
+        {path: '/addItem', component: AddItemPage}
     ]
 });
 
@@ -25,7 +27,8 @@ var vm = new Vue({
     components: {
         'app': App,
         'login-page': LoginPage,
-        'registration-page': RegistrationPage
+        'registration-page': RegistrationPage,
+        'addItem-page': AddItemPage
     },
     router: router,
     render: function(h) {
