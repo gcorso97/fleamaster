@@ -12,6 +12,9 @@
             </div>
             <button class="centered buttonForm buttonShadow" disabled>Login</button>
         </form>
+        <transition name="fade">
+            <router-view></router-view>
+        </transition>
     </div>
 </template>
 
