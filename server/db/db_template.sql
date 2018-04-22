@@ -3,38 +3,31 @@ CREATE DATABASE IF NOT EXISTS `fleamaster`;
 
 -- user table
 CREATE TABLE IF NOT EXISTS `user` (
-    'userid' int auto_increment primary key,
-    'firstname' varchar(30),
-    'lastname' varchar(30),
-    'gender' varchar(4),
-    'city' varchar(50),
-    'zip' varchar(10),
-    'street' varchar(80),
+    `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `firstname` VARCHAR(30),
+    `lastname` VARCHAR(30),
+    `gender` VARCHAR(4),
+    `city` VARCHAR(50),
+    `zipcode` VARCHAR(10),
+    `street` VARCHAR(80),
     `mail` VARCHAR(100) NOT NULL,
     `pwd_hash` VARCHAR(255) NOT NULL
 );
 
-Create table 'shoppingCart'(
-  'userid' int,
-  'articleid' int,
-  'totalprice' float,
-  foreign key userid references user(userid),
-  foreign key articleid references article(articleid),
-  primary key (userid,articleid),
+-- category table
+CREATE TABLE IF NOT EXISTS `category` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(255) NOT NULL
 );
 
-Create table 'article'(
-  'articleid' int primary key,
-  'provider' int,
-  'articlename' varchar(50),
-  'description' varchar(255),
-  'categoryid' int,
-  'price' float,
-  foreign key categoryid references article(categoryid),
-  foreign key provider references user(userid)
-);
-
-CREATE table 'category'(
-  'categoryid' int primary key,
-  'categoryname' varchar(255)
+-- article table
+CREATE TABLE IF NOT EXISTS `article` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `user` INT NOT NULL,
+  `title` VARCHAR(255) NOT NULL,
+  `description` MEDIUMTEXT NOT NULL,
+  `category` INT NOT NULL,
+  `price` FLOAT NULL NULL,
+  FOREIGN KEY (`category`) REFERENCES `category`(`id`),
+  FOREIGN KEY (`user`) REFERENCES `user`(`id`)
 );
