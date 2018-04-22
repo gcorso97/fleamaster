@@ -9,18 +9,8 @@ body{
     box-shadow: 0 -210px 5000px 0px #497F5F;
 }
 .faded{
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(black), to(transparent));
-    background-image: -webkit-linear-gradient(#D7FFE7, transparent);
     background-image:
-      -moz-linear-gradient(#D7FFE7, transparent),
-      -moz-linear-gradient(#D7FFE7, transparent);
-    background-image:
-      -o-linear-gradient(#D7FFE7, transparent),
-      -o-linear-gradient(#D7FFE7, transparent);
-    background-image:
-      linear-gradient(#D7FFE7, transparent),
       linear-gradient(#D7FFE7, transparent);
-
     /*when fade only border
     background-repeat: no-repeat;
      */
@@ -58,8 +48,14 @@ body{
     box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.buttonShadow:active{
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 1), 0 6px 20px 0 rgba(0, 0, 0, 1);
+
+}
+
 .buttonForm{
-    background-color: #D7FFE7;
+    background-color: #457859;
+    color: white;
     border-radius: 25px;
 }
 
@@ -79,6 +75,8 @@ body{
     font-size: 12px;
 }
 
+
+
 /*Navbar*/
 
 /* Add a background color to the top navigation */
@@ -88,7 +86,7 @@ body{
 }
 
 /* Style the links inside the navigation bar */
-.topnav a {
+.topnav div {
     float: left;
     color: #f2f2f2;
     text-align: center;
@@ -97,15 +95,6 @@ body{
     font-size: 17px;
 }
 
-/* Change the color of links on hover */
-.topnav a:hover {
-    background-color: #ddd;
-    color: black;
-}
-
-#headerPic {
-  width: 100%;
-}
 
 .buttonMain {
   background: #D7FFE7;
@@ -128,3 +117,5 @@ body{
   display: flex;
   justify-content: space-around;
 }
+
+/* TODO: CSS classes need to be better organized (for example: global style -> general.css ) */
