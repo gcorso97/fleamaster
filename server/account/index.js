@@ -24,22 +24,22 @@ let isValidMail = (mail) => {
 };
 
 /**
- * Registers new account for given mail
- * @param {String} mail the mail of the account to register
- * @param {String} password the password to use
+ * Registers new account for given mail within user object
+ * @param {Object} userObj the user object to register containing all information about user (incl. mail + password)
  * @param {Function} callback callback function
  */
-let register = (mail, password, callback) => {
+let register = (userObj, callback) => {
     try {
-        var generatedPW = passwordHash.generate(password, {algorithm: 'sha512'});
+        var generatedPW = passwordHash.generate(userObj.password, {algorithm: 'sha512'});
 
         // search for may existing account
-        db.query('SELECT mail FROM user WHERE mail=?', [mail], (err, queryRes) => {
+        db.query('SELECT mail FROM user WHERE mail=?', [userObj.mail], (err, queryRes) => {
             if(!err && queryRes) {
                 if(queryRes.length) callback(srv_error.ALREADY_REGISTERED, null);   // user already registered
                 else {
                     // register user
-                    db.query('INSERT INTO user (mail, pwd_hash) VALUES (?, ?)', [mail, generatedPW], (err, queryRes) => {
+                    db.query('INSERT INTO user (firstname, lastname, city, zipcode, street, mail, pwd_hash) ' + 
+                    'VALUES (?, ?, ?, ?, ?, ?, ?)', [userObj.firstname, userObj.lastname, userObj.city, userObj.zipcode, userObj.street, userObj.mail, generatedPW], (err, queryRes) => {
                         callback(err, ((!err)? true : false));
                     });
                 }
@@ -73,8 +73,8 @@ let login = (mail, password, callback) => {
 module.exports = {
     register: (req, res) => {
         // validate params
-        if(req && req.body && isValidMail(req.body.mail) && isValidPassword(req.body.password)) {
-            register(req.body.mail, req.body.password, (err, registered) => {
+        if(req && req.body && req.body.user && isValidMail(req.body.user.mail) && isValidPassword(req.body.user.password)) {
+            register(req.body.user, (err, registered) => {
                 // start authenticated session if no error
                 if(!err && registered) res.json({authenticated: req.session.authenticated = true});
                 else res.status(409).json({error: {code: 409, message: err}});

@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS `user` (
     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `firstname` VARCHAR(30),
     `lastname` VARCHAR(30),
-    `gender` VARCHAR(4),
     `city` VARCHAR(50),
     `zipcode` VARCHAR(10),
     `street` VARCHAR(80),
