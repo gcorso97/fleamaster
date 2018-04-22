@@ -1,27 +1,19 @@
 body{
-    background-color:red;
-    padding: 20px;
+    background-color: #F8FFFB;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 15px
 }
-#login{
-    background-color: gray;
-    padding-top: 10px;
-    color: white;
-    border-top: 3px solid black;
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#000), to(transparent));
-    background-image: -webkit-linear-gradient(#000, transparent);
+.mainContainer{
+    background-color: inherit;
+    box-shadow: 0 -210px 5000px 0px #497F5F;
+}
+.faded{
     background-image:
-      -moz-linear-gradient(#000, transparent),
-      -moz-linear-gradient(#000, transparent);
-    background-image:
-      -o-linear-gradient(#000, transparent),
-      -o-linear-gradient(#000, transparent);
-    background-image:
-      linear-gradient(#000, transparent),
-      linear-gradient(#000, transparent);
-    -moz-background-size: 3px 100%;
-    background-size: 3px 100%;
-    background-position: 0 0, 100% 0;
+      linear-gradient(#D7FFE7, transparent);
+    /*when fade only border
     background-repeat: no-repeat;
+     */
 }
 
 #logoImage {
@@ -31,25 +23,99 @@ body{
     width:200px;
     height:200px;
 }
-#loginInput input{
-    display: block;
-    border: 1px solid BLACK;
-    border-radius: 10px;
+
+#loginLinks {
+    text-align: center;
 }
-#loginLinks a{
-    display: block;
-    padding-left: 20px;
-}
+
 .centered{
     display: block;
     margin: auto;
-    margin-top: 10PX;
+    margin-bottom: 10PX;
     width: 50%;
     padding: 10px;
 }
-#loginBtn{
-    background-color: #595959;
-    border-radius: 25px;
+.inputField {
+    width: 140px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom:10px;
+    border: none;
+    padding: 10px;
+}
+.buttonShadow{
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 
+.buttonShadow:active{
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 1), 0 6px 20px 0 rgba(0, 0, 0, 1);
 
 }
+
+.buttonForm{
+    background-color: #457859;
+    color: white;
+    border-radius: 25px;
+}
+
+
+/* page Animation */
+.fade-enter-active, .fade-leave-active {
+  transition-property: opacity;
+  transition-duration: .25s;
+}
+.fade-enter-active {
+  transition-delay: .25s;
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
+.linkFormat{
+    font-size: 12px;
+}
+
+
+
+/*Navbar*/
+
+/* Add a background color to the top navigation */
+.topnav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav div {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+
+.buttonMain {
+  background: #D7FFE7;
+  font-family: Arial;
+  color: black;
+  font-size: 1em;
+  display: inline-block;
+   margin-right: 5px;
+   padding: 5em;
+}
+
+.flex-container > div {
+  background-color: #f1f1f1;
+  margin: 10px;
+  padding: 20px;
+  font-size: 30px;
+}
+
+.mainBtns {
+  display: flex;
+  justify-content: space-around;
+}
+
+/* TODO: CSS classes need to be better organized (for example: global style -> general.css ) */

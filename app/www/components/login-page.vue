@@ -1,17 +1,22 @@
 <template>
-    <div id="login">
+    <div id="login" class="faded mainContainer">
         <form @submit.prevent="login">
             <div id="logoImage" class="centered"></div>
             <div id="loginInput" class="centered">
-                <input class="centered" type="text" v-model="mail" id="mail" v-on:input="validateInput"/>
-                <input class="centered" type="password" v-model="password" id="password" v-on:input="validateInput"/>
+                <input class="inputField" type="text" v-model="mail" id="mail" v-on:input="validateInput" placeholder="Email"/>
+                <input class="inputField" type="password" v-model="password" id="password" v-on:input="validateInput" placeholder="Passwort"/>
             </div>
             <div id="loginLinks" class="centered">
-                <a href="#">Passwort zurücksetzen</a>
-                <a href="#">Registieren</a>
+                <a class="linkFormat" href="#">Passwort zurücksetzen</a>
+                <router-link class="linkFormat" to="/register">Registrieren</router-link>
+                <router-link class="linkFormat" to="/addItem">TestLink</router-link>
+                <router-link class="linkFormat" to="/welcome">MainLink</router-link>
             </div>
-            <button id="loginBtn" class="centered" disabled>Login</button>
+            <button class="centered buttonForm buttonShadow" disabled id="loginBtn">Login</button>
         </form>
+        <transition name="fade">
+            <router-view></router-view>
+        </transition>
     </div>
 </template>
 
@@ -22,15 +27,14 @@ export default {
             mail: '',
             password: '',
             regExpMail: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-
-
         };
     },
+
     methods: {
       validateInput: function () {
-        var self = this;
-        var mailOk = self.validEmail(self.mail);
-        var passwordOk = self.validPasswort(self.password);
+        var self = this,
+            mailOk = self.validEmail(self.mail),
+            passwordOk = self.validPasswort(self.password);
         if (mailOk && passwordOk) {
             loginBtn.disabled = false;
         } else {
@@ -44,8 +48,8 @@ export default {
       },
 
     validPasswort:function(password) {
-      var self = this;
-      var passwordLength = self.password.length;
+      var self = this,
+          passwordLength = self.password.length;
         if (passwordLength >= 6) {
           return true;
         } else {
@@ -55,7 +59,6 @@ export default {
 
         login: function() {
             var self = this;
-
             self.$http.post(RESTURL + '/login', {mail: self.mail, password: self.password}).then(function(response) {
                 console.log(response);
             }, function(response) {
