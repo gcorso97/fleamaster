@@ -1,0 +1,49 @@
+.welcomeBtn {
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+
+    color: white;
+    font-family: Georgia, serif;
+
+    font-size: 16px;
+    background-color: #457859;
+    border: none;
+    margin-top: 35px;
+    /* border-radius: 10px; */
+}
+
+.welcomeBtn:first-child{
+    margin-right: 9px;
+}
+.welcomeBtn:nth-child(2){
+    margin-left: 9px;
+}
+
+/* Change the color of links on hover */
+.topnav:active {
+    background-color: #ddd;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.topnav{
+    position:fixed;
+    top: 10;
+    z-index:99;
+    width:84.5%;
+    background-color: rgba(0,0,0,0.5);
+
+    /*When in normal browswer-mode the element's position is not stable while scrolling
+    but on the other hand it works fine with mobile-mode(in browser)  */
+}
+
+#headerPic {
+    width: 100%;
+}
+
+.welcomeImage{
+    -webkit-mask-image: -webkit-gradient(linear, center top, center bottom,
+      color-stop(0.25,  rgba(0,0,0,1)),
+      color-stop(1.00,  rgba(0,0,0,0)));
+}

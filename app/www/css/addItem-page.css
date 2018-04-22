@@ -1,0 +1,25 @@
+#addItem #description{
+    padding-top: 35px;
+    padding-bottom: 35px;
+    width: 140px;
+    border-radius: 5px;
+    border: none;
+}
+#addItem input{
+    height: 3px;
+    width: 140px;
+    border-radius: 5px;
+    border: none;
+}
+
+#addItem select{
+    background-color: light grey;
+    width: 160px;
+    height: 20px;
+    font-size: 10.2px;
+    border-radius: 5px;
+    margin-left: 0px;
+    border: 0.025px solid black;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
