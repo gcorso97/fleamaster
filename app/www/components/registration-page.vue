@@ -5,19 +5,19 @@
             <div id="RegisterInput" class="centered">
 
               <div id="personalData">
-              <input class="centered" type="text" v-model="user.firstname" id="firstname" placeholder="Vorname" required/>
-              <input class="centered" type="text" v-model="user.lastname" id="lastname" placeholder="Nachname" required/>
+              <input class="centered boxShadow" type="text" v-model="user.firstname" id="firstname" placeholder="Vorname" required/>
+              <input class="centered boxShadow" type="text" v-model="user.lastname" id="lastname" placeholder="Nachname" required/>
             </div>
 
             <div id="adressData">
-              <input class="centered" type="text" v-model="user.street" id="street" placeholder="Straße + Hausnummer" required/>
-              <input class="centered" type="text" v-model="user.zipcode" id="zipcode" placeholder="Postleitzahl" required/>
-              <input class="centered" type="text" v-model="user.city" id="city" placeholder="Ort" required/>
+              <input class="centered boxShadow" type="text" v-model="user.street" id="street" placeholder="Straße + Hausnummer" required/>
+              <input class="centered boxShadow" type="text" v-model="user.zipcode" id="zipcode" placeholder="Postleitzahl" required/>
+              <input class="centered boxShadow" type="text" v-model="user.city" id="city" placeholder="Ort" required/>
             </div>
 
             <div id="credentials">
-              <input class="centered" type="text" v-model="user.mail" id="mail" placeholder="E-Mail" required v-on:input="validateRegistration"/>
-              <input class="centered" type="password" v-model="user.password" id="password" placeholder="Passwort" required v-on:input="validateRegistration"/>
+              <input class="centered boxShadow" type="text" v-model="user.mail" id="mail" placeholder="E-Mail" required v-on:input="validateRegistration"/>
+              <input class="centered boxShadow" type="password" v-model="user.password" id="password" placeholder="Passwort" required v-on:input="validateRegistration"/>
             </div>
 
             </div>

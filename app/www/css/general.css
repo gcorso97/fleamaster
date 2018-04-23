@@ -1,0 +1,81 @@
+.mainContainer{
+    background-color: inherit;
+    box-shadow: 0 -210px 5000px 0px #497F5F;
+}
+.faded{
+    background-image:
+      linear-gradient(#D7FFE7, transparent);
+    /*when fade only border
+    background-repeat: no-repeat;
+     */
+}
+
+.boxShadow{
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.10);
+    border: none;
+}
+
+.titleLabel{
+    text-shadow: 0px 0px 1px #000000;
+    font-size: 12px;
+    text-align: center;
+    border-bottom: 0.5px solid gray;
+
+}
+
+#logoImage {
+    background-image: url(../img/logo.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    width:200px;
+    height:200px;
+}
+
+.centered{
+    display: block;
+    margin: auto;
+    margin-bottom: 10PX;
+    width: 50%;
+    padding: 10px;
+}
+.inputField {
+    width: 140px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom:10px;
+    border: none;
+    padding: 10px;
+}
+.buttonShadow{
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.buttonShadow:active{
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 1), 0 6px 20px 0 rgba(0, 0, 0, 1);
+
+}
+
+.buttonForm{
+    background-color: #457859;
+    color: white;
+    border-radius: 25px;
+}
+
+
+/* page Animation */
+.fade-enter-active, .fade-leave-active {
+  transition-property: opacity;
+  transition-duration: .25s;
+}
+.fade-enter-active {
+  transition-delay: .25s;
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
+
+
+.linkFormat{
+    font-size: 12px;
+}

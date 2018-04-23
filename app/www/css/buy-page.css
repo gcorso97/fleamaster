@@ -1,0 +1,30 @@
+.titleBackgroundContainer{
+    background-color: white;
+    width:86%;
+    background: solid;
+    position:fixed;
+    overflow-y: hidden;
+
+}
+
+#buy .titleContainer{
+    height: 100%;
+}
+
+.objectContainer {
+    padding: 5px;
+    margin-bottom: 10px;
+    box-shadow: 3px 3px 3px #ccc;
+
+
+
+}
+.objectsContainer{
+    padding-top: 290px;
+    height: 300px;
+    background: none;
+    overflow-y: scroll;
+}
+.objectContainer .objectImageThumbnail{
+    margin: 5px;
+}

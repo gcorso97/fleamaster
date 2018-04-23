@@ -3,8 +3,8 @@
         <form @submit.prevent="addItem">
             <div id="logoImage" class="centered"></div>
             <div id="AddingInput" class="centered">
-              <input class="centered" type="text" v-model="item.header" id="header" placeholder="Bezeichnung" required/>
-              <select v-model="item.category" class="centered">
+              <input class="centered boxShadow" type="text" v-model="item.header" id="header" placeholder="Bezeichnung" required/>
+              <select v-model="item.category" class="centered boxShadow">
                 <option disabled value="">Wähle eine Kategorie</option>
                 <option>Bekleidung</option>
                 <option>Haushalt</option>
@@ -13,8 +13,8 @@
                 <option>Technik</option>
                 <option>Unterhaltung</option>
               </select>
-              <textarea class="centered" type="textarea" v-model="item.description" id="description" placeholder="Beschreibung"></textarea>
-              <input class="centered" v-model="item.price" id="price" placeholder="Verkaufspreis" required/>
+              <textarea class="centered boxShadow" type="textarea" v-model="item.description" id="description" placeholder="Beschreibung"></textarea>
+              <input class="centered boxShadow" v-model="item.price" id="price" placeholder="Verkaufspreis" required/>
             </div>
             <button id="addBtn" class="centered buttonShadow buttonForm">Hinzufügen</button>
         </form>

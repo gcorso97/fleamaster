@@ -3,11 +3,11 @@
         <form @submit.prevent="login">
             <div id="logoImage" class="centered"></div>
             <div id="loginInput" class="centered">
-                <input class="inputField" type="text" v-model="mail" id="mail" v-on:input="validateInput" placeholder="Email"/>
-                <input class="inputField" type="password" v-model="password" id="password" v-on:input="validateInput" placeholder="Passwort"/>
+                <input class="inputField boxShadow" type="text" v-model="mail" id="mail" v-on:input="validateInput" placeholder="Email"/>
+                <input class="inputField boxShadow" type="password" v-model="password" id="password" v-on:input="validateInput" placeholder="Passwort"/>
             </div>
             <div id="loginLinks" class="centered">
-                <a class="linkFormat" href="#">Passwort zurücksetzen</a>
+                <router-link class="linkFormat" to="/passwordForgot">Passwort zurücksetzen</router-link>
                 <router-link class="linkFormat" to="/register">Registrieren</router-link>
                 <router-link class="linkFormat" to="/addItem">TestLink</router-link>
                 <router-link class="linkFormat" to="/welcome">MainLink</router-link>
