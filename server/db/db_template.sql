@@ -1,8 +1,12 @@
 -- database
-CREATE DATABASE IF NOT EXISTS `fleamaster`;
+DROP DATABASE IF EXISTS `fleamaster`;
+CREATE DATABASE `fleamaster`;
+
+USE `fleamaster`;
 
 -- user table
-CREATE TABLE IF NOT EXISTS `user` (
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `firstname` VARCHAR(30),
     `lastname` VARCHAR(30),
@@ -14,19 +18,21 @@ CREATE TABLE IF NOT EXISTS `user` (
 );
 
 -- category table
-CREATE TABLE IF NOT EXISTS `category` (
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE `category` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(255) NOT NULL
 );
 
 -- article table
-CREATE TABLE IF NOT EXISTS `article` (
+DROP TABLE IF EXISTS `article`;
+CREATE TABLE `article` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `user` INT NOT NULL,
   `title` VARCHAR(255) NOT NULL,
   `description` MEDIUMTEXT NOT NULL,
   `category` INT NOT NULL,
-  `price` FLOAT NULL NULL,
+  `price` FLOAT NOT NULL,
   FOREIGN KEY (`category`) REFERENCES `category`(`id`),
   FOREIGN KEY (`user`) REFERENCES `user`(`id`)
 );
