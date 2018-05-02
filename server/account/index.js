@@ -71,6 +71,11 @@ let login = (mail, password, callback) => {
  * Account module
  */
 module.exports = {
+    /**
+     * Register request handler
+     * @param {Object} req the server request
+     * @param {Object} res the server reponse
+     */
     register: (req, res) => {
         // validate params
         if(req && req.body && req.body.user && isValidMail(req.body.user.mail) && isValidPassword(req.body.user.password)) {
@@ -81,6 +86,11 @@ module.exports = {
             });
         } else res.status(422).json({error: {code: 422, message: srv_error.INVALID_PARAM}});
     },
+    /**
+     * Login request handler
+     * @param {Object} req the server request
+     * @param {Object} res the server response
+     */
     login: (req, res) => {
         // validate params
         if(req && req.body && isValidMail(req.body.mail) && isValidPassword(req.body.password)) {
