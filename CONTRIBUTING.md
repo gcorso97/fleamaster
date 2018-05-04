@@ -4,6 +4,7 @@ Contributing generally can be done in two ways - either contributing with the cr
 
 #### Environment and Plug-ins
 
+###### Environment
 - Atom
 - Node.js (npm)
 - Cordova
@@ -11,7 +12,7 @@ Contributing generally can be done in two ways - either contributing with the cr
 - MySQL
 
 
-- Plugins
+###### Plugins
  - Atom-IDE-UI
  - Atom-IDE-TypeScript
  - DocBlockr
@@ -27,21 +28,38 @@ Contributing generally can be done in two ways - either contributing with the cr
 - Ensure that used methods can be executed properly within older environments (especially in Frontend to support Android 4 or older iOS versions)
 - don't repeat yourself. Use re-usable functions and split to avoid too large, complex functions or code parts
 - document your code!
+- try to avoid using npm or cordova packages as often as possible - if you need them, install them with --save flag, so they will be added to the package.json file for others
 
 
 #### Code preparation and build process
-- run `npm install`
-- run `npm install -g rollup` once (skip this, if already done)
+
+##### App build
+###### First-time-setup
 - enter app directory with `cd app`
-- run `rollup -c`
+- run `npm install`
+- run `npm install -g rollup`
+- copy `app_config.template.js` to `www/js/app_config.js` and adjust the values for your needs
+###### Build process
+- enter the app directory with `cd app`
+- run `rollup -c --watch`
 - now you can view the app locally within the browser or with `cordova build android` / `cordova run android`
-- on every change, you'll need to re-run `rollup -c`
+
+##### Server build
+###### First-time-setup
+- enter server directory with `cd server`
+- run `npm install`
+- copy `srv_config.template.json` to `srv_config.json` and adjust the values for your needs
+- run `mysql fleamaster < db/db_template.sql` to setup database structure
+###### Build process
+- enter server directory with `cd server`
+- run `node server.js` or `node --inspect server.js` if you want to debug the server on the Chrome DevTools
 
 #### Coding style
 ###### Variables declaration
 ```javascript
-var foo = 'bar',
-    foo2 = 'bar',
+var self = this, // declare self, if you use this multiple times or within different context
+    foo = 'bar', // declare variables always on top of functions
+    foo2 = 'bar', // use comma - no semicolon, if there are other variables coming
     foo3 = 'bar3';
 
 // all variables have been declared, proceed with code
@@ -66,7 +84,7 @@ console.log(foo('bar'));
 let myArray = [1, 2, 3];
 
 /**
- * Since arrow functions are not supported by every browser or platform,
+ * Since arrow functions, let and const keywords are not supported by every browser or platform,
  * use them only within backend!
  */
 myArray.forEach(num => console.log(num));

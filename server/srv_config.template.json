@@ -1,0 +1,9 @@
+{
+    "DEBUG": true,
+    "SESSION_SECRET": "replaceWithSomethingSecret",
+    "PORT": 1234,
+    "DB_HOST": "localhost",
+    "DB_USER": "user",
+    "DB_PWD": "password",
+    "DB_DBNAME": "fleamaster"
+}
