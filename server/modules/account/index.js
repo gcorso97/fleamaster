@@ -1,6 +1,6 @@
 var passwordHash = require('password-hash'),
     crypto = require('crypto'),
-    srv_error = require('./../srv_error.json'),
+    srv_error = require('./../../srv_error.json'),
     db = require('./../db').getPool();
 
 /**

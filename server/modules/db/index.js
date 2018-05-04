@@ -1,5 +1,5 @@
-var srv_config = require('./../srv_config.json'),
-    srv_error = require('./../srv_error.json'),
+var srv_config = require('./../../srv_config.json'),
+    srv_error = require('./../../srv_error.json'),
     mysql = require('mysql'),
     db = mysql.createPool({
         host: srv_config.DB_HOST,

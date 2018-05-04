@@ -6,7 +6,7 @@ var express = require('express'),
     session = require('express-session'),
     bodyParser = require('body-parser'),
     mysql = require('mysql'),
-    account = require('./account');
+    account = require('./modules/account');
 
 // session handling
 app.use(session({
