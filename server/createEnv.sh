@@ -5,9 +5,9 @@ if [[ ! -e srv_config.json ]]; then
 fi
 # setup mysql config
 config=`cat srv_config.json`;
-MYSQL_DATABASE="$(node -pe "JSON.parse(\`$config\`).DB_DB")"
+MYSQL_DATABASE="$(node -pe "JSON.parse(\`$config\`).DB_DBNAME")"
 MYSQL_USER="$(node -pe "JSON.parse(\`$config\`).DB_USER")"
-MYSQL_PASSWORD="$(node -pe "JSON.parse(\`$config\`).DB_PW")"
+MYSQL_PASSWORD="$(node -pe "JSON.parse(\`$config\`).DB_PWD")"
 
 # database setup
 mysql -u ${MYSQL_USER} ${MYSQL_PASSWORD:+-p${MYSQL_PASSWORD}} --execute="CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE}";
