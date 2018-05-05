@@ -74,7 +74,6 @@ Contributing generally can be done in two ways - either contributing with the cr
     - `/modules` (*custom modules for custom functions or server requests - grouped for their base functionality (e.g. login handling within account module)*)
     - `/node_modules` (*npm plugin sources*)
     - `/tests` (*server tests, each seperated to their referencing module*)
-    - `.travis.yml` (*travis-ci automated server test configuration file*)
     - `createEnv.sh` (*script for automated environment setup for travis-ci*)
     - `package.json` (*contains all required plugins and external source references*)
     - `server.js` (*server initialization and request routing handling*)
