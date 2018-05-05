@@ -7,7 +7,5 @@ before_script:
   - npm run createEnv
   - node server.js &
   - sleep 30
-before_install:
-  - cd server
 services:
   - mysql

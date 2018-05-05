@@ -3,6 +3,10 @@
 if [[ ! -e srv_config.json ]]; then
     cat srv_config.template.json > srv_config.json
 fi
+# create temporarly package.json to the top for travis-ci
+if [[ ! -e ../package.json ]]; then
+    cat package.json > ../package.json
+fi
 # setup mysql config
 config=`cat srv_config.json`;
 MYSQL_DATABASE="$(node -pe "JSON.parse(\`$config\`).DB_DBNAME")"
