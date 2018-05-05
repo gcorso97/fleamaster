@@ -64,6 +64,7 @@ Contributing generally can be done in two ways - either contributing with the cr
 ###### First-time-setup
 - enter server directory with `cd server`
 - run `npm install`
+- run `npm install -g mocha`
 - copy `srv_config.template.json` to `srv_config.json` and adjust the values for your needs
 - run `mysql fleamaster < db/db_template.sql` to setup database structure
 ###### Build process
