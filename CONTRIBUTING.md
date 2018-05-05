@@ -43,6 +43,22 @@ Contributing generally can be done in two ways - either contributing with the cr
 - enter the app directory with `cd app`
 - run `rollup -c --watch`
 - now you can view the app locally within the browser or with `cordova build android` / `cordova run android`
+###### Directory structure
+- `/app` (*the app directory*)
+    - `/hooks` (*cordova specific for hook events*)
+    - `/node_modules` (*npm plugin sources*)
+    - `/plugins` (*cordova plugin sources*)
+    - `/res` (*will be used for images and other resources that aren't used directly within app itself like app icons*)
+    - `/www` (*the main app directory*)
+        - `/components` (*all VueJS components are here*)
+        - `/css` (*the css files for the components*)
+        - `/img` (*contains image resources*)
+        - `/js` (*contains the configuration file, as well as the bundler, vue and custom functions*)
+        - `index.html` (*basic html file to render Vue instance and to load scripts and resources*)
+    - `app_config.template.js` (*the app configuration file template*)
+    - `config.xml` (*cordova specific configuration structure file*)
+    - `package.json` (*contains all required plugins and external source references*)
+    - `rollup.config.js` (*module bundler configuration file*)
 
 ##### Server build
 ###### First-time-setup
@@ -53,6 +69,15 @@ Contributing generally can be done in two ways - either contributing with the cr
 ###### Build process
 - enter server directory with `cd server`
 - run `node server.js` or `node --inspect server.js` if you want to debug the server on the Chrome DevTools
+###### Directory structure
+- `/server` (*the server directory*)
+    - `/modules` (*custom modules for custom functions or server requests - grouped for their base functionality (e.g. login handling within account module)*)
+    - `/node_modules` (*npm plugin sources*)
+    - `/tests` (*server tests, each seperated to their referencing module*)
+    - `package.json` (*contains all required plugins and external source references*)
+    - `server.js` (*server initialization and request routing handling*)
+    - `srv_config.template.json` (*server configuration file template*)
+    - `srv_error.json` (*server error enumerations declaration*)
 
 #### Coding style
 ###### Variables declaration
