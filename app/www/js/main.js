@@ -3,11 +3,11 @@ import App from './../components/App.vue';
 import LoginPage from './../components/login-page.vue';
 import RegistrationPage from './../components/registration-page.vue';
 import WelcomePage from './../components/welcome-page.vue';
+import ProductsPage from './../components/products-page.vue';
 import AddItemPage from './../components/addItem-page.vue';
 import PasswordForgot from './../components/password-forgot-page.vue';
-import BuyPage from './../components/buy-page.vue';
 
-
+Vue.use(VueMaterial.default);
 Vue.use(VueResource);
 Vue.use(VueRouter);
 
@@ -22,8 +22,7 @@ var router = new VueRouter({
         {path: '/welcome', component: WelcomePage},
         {path: '/addItem', component: AddItemPage},
         {path: '/passwordForgot', component: PasswordForgot},
-        {path: '/shop/buy', component: BuyPage}
-
+        {path: '/products', component: ProductsPage}
     ]
 });
 
@@ -37,7 +36,7 @@ var vm = new Vue({
         'addItem-page': AddItemPage,
         'welcome-page': WelcomePage,
         'password-forgot-page': PasswordForgot,
-        'buy-page': BuyPage
+        'products-page': ProductsPage
     },
     router: router,
     render: function(h) {

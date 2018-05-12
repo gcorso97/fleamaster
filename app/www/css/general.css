@@ -10,58 +10,6 @@
      */
 }
 
-.boxShadow{
-    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.10);
-    border: none;
-}
-
-.titleLabel{
-    text-shadow: 0px 0px 1px #000000;
-    font-size: 12px;
-    text-align: center;
-    border-bottom: 0.5px solid gray;
-
-}
-#logoImage {
-    background-image: url(../img/logo.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    width:200px;
-    height:200px;
-}
-
-.centered{
-    display: block;
-    margin: auto;
-    margin-bottom: 10PX;
-    width: 50%;
-    padding: 10px;
-}
-.inputField {
-    width: 140px;
-    display: block;
-    border-radius: 5px;
-    margin-top: 10px;
-    margin-bottom:10px;
-    border: none;
-    padding: 10px;
-}
-.buttonShadow{
-    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.buttonShadow:active{
-    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 1), 0 6px 20px 0 rgba(0, 0, 0, 1);
-
-}
-
-.buttonForm{
-    background-color: #457859;
-    color: white;
-    border-radius: 25px;
-}
-
-
 /* page Animation */
 .fade-enter-active, .fade-leave-active {
   transition-property: opacity;
@@ -74,7 +22,22 @@
   opacity: 0
 }
 
+.md-drawer .md-list-item:active,
+.md-drawer .md-list-item:hover {
+  background-color: #dbeeff;
+  cursor: pointer;
+}
 
-.linkFormat{
-    font-size: 12px;
+.loading-overlay {
+    z-index: 10;
+    top: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

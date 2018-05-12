@@ -1,19 +1,31 @@
 <template>
-    <div id="login" class="faded mainContainer">
-        <form @submit.prevent="login">
-            <div id="logoImage" class="centered"></div>
-            <div id="loginInput" class="centered">
-                <input class="inputField boxShadow" type="text" v-model="mail" id="mail" v-on:input="validateInput" placeholder="Email"/>
-                <input class="inputField boxShadow" type="password" v-model="password" id="password" v-on:input="validateInput" placeholder="Passwort"/>
+    <div id="login" class="centered-container">
+        <md-content class="md-elevation-3">
+            <div class="title">
+                <img src="img/logo.png">
+                <div class="md-title">FleaMaster</div>
+                <div class="md-body-1">Shopping. Auf besondere Weise</div>
+                <div class="md-body-1 error-message" v-if="invalidCredentials">Ungültige Zugangsdaten</div>
             </div>
-            <div id="loginLinks" class="centered">
-                <router-link class="linkFormat" to="/passwordForgot">Passwort zurücksetzen</router-link>
-                <router-link class="linkFormat" to="/register">Registrieren</router-link>
-                <router-link class="linkFormat" to="/addItem">TestLink</router-link>
-                <router-link class="linkFormat" to="/welcome">MainLink</router-link>
+            <div class="form">
+                <md-field>
+                    <label>E-Mail</label>
+                    <md-input v-model="mail" autofocus v-on:input="validateInput"></md-input>
+                </md-field>
+                <md-field md-has-password>
+                    <label>Passwort</label>
+                    <md-input v-model="password" type="password" v-on:input="validateInput"></md-input>
+                </md-field>
             </div>
-            <button class="centered buttonForm buttonShadow" disabled id="loginBtn">Login</button>
-        </form>
+            <div class="actions md-layout md-alignment-center-space-between">
+                <router-link to="/passwordForgot">Passwort vergessen</router-link>
+                <md-button class="md-raised md-primary" @click="login" id="loginBtn" disabled>Login</md-button>
+            </div>
+            <div class="loading-overlay" v-if="loading">
+                <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
+            </div>
+        </md-content>
+        <div class="background"></div>
         <transition name="fade">
             <router-view></router-view>
         </transition>
@@ -24,44 +36,40 @@
 export default {
     data: function() {
         return {
+            loading: false,
+            invalidCredentials: false,
             mail: '',
-            password: '',
-            regExpMail: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            password: ''
         };
     },
-
     methods: {
-      validateInput: function () {
-        var self = this,
-            mailOk = self.validEmail(self.mail),
-            passwordOk = self.validPasswort(self.password);
-        if (mailOk && passwordOk) {
-            loginBtn.disabled = false;
-        } else {
-            loginBtn.disabled = true;
-        }
-      },
-
-      validEmail:function(email) {
-      var self = this;
-      return self.regExpMail.test(email);
-      },
-
-    validPasswort:function(password) {
-      var self = this,
-          passwordLength = self.password.length;
-        if (passwordLength >= 6) {
-          return true;
-        } else {
-          return false;
-      }
-    },
-
+        validateInput: function () {
+            var self = this;
+            
+            loginBtn.disabled = !(self.validMail(self.mail) && self.validPassword(self.password));
+            self.invalidCredentials = false;
+        },
+        validMail: function(mail) {
+            var regExpMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            
+            return regExpMail.test(mail);
+        },
+        validPassword: function(password) {
+            return (this.password.length >= 6);
+        },
         login: function() {
             var self = this;
+            
+            self.loading = true;
             self.$http.post(RESTURL + '/login', {mail: self.mail, password: self.password}).then(function(response) {
+                // success
+                self.loading = false;
                 console.log(response);
+                self.$router.push('welcome');
             }, function(response) {
+                // error
+                self.loading = false;
+                self.invalidCredentials = true;
                 console.error(response);
             });
         }

@@ -1,20 +1,57 @@
-body{
-    background-color: #F8FFFB;
-    padding-right: 20px;
-    padding-left: 20px;
-    padding-top: 15px
+.centered-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 100vh;
 }
 
-#loginLinks {
+.centered-container .title {
     text-align: center;
+    margin-bottom: 30px;
 }
 
-/* .buttonMain {
-  background: #D7FFE7;
-  font-family: Arial;
-  color: black;
-  font-size: 1em;
-  display: inline-block;
-   margin-right: 5px;
-   padding: 5em;
-} */
+.centered-container .title img {
+    margin-bottom: 16px;
+    max-width: 80px;
+}
+
+.centered-container .title .md-title {
+    font-weight: bold;
+}
+
+.centered-container .title .md-body-1:not(.error-message) {
+    font-style: italic;
+}
+.centered-container .title .md-body-1.error-message {
+    color: red;
+    font-weight: bolder;
+}
+
+.centered-container .actions .md-button {
+    margin: 0;
+}
+
+.centered-container .form {
+    margin-bottom: 60px;
+}
+
+.centered-container .background {
+    background: url("./../img/background.png");
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.centered-container .md-content {
+    z-index: 1;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+}
