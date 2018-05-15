@@ -34,14 +34,14 @@
         </md-drawer>
         <md-content>
             <md-empty-state v-if="!isBuyer"
-            md-icon="store" 
-            md-label="Noch nichts verkauft" 
+            md-icon="store"
+            md-label="Noch nichts verkauft"
             md-description="Ein Produkt selbst anzubieten ist einfach. Probiere es doch mal direkt aus!">
             <md-button class="md-primary md-raised">Produkt anbieten</md-button>
             </md-empty-state>
             <md-empty-state v-if="isBuyer"
-            md-icon="remove_shopping_cart" 
-            md-label="Noch nichts los" 
+            md-icon="remove_shopping_cart"
+            md-label="Noch nichts los"
             md-description="Es gibt noch keine passenden Produkte. Schau später noch einmal vorbei!">
             </md-empty-state>
             <md-speed-dial :class="topPosition" md-direction="bottom" class="md-bottom-right">

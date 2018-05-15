@@ -31,7 +31,8 @@
 <script>
 // TODO THIS COMPONENT DOES NOT WORK CURRENTLY
 export default {
-    props: ['showSidebar'],
+    name: 'sidebar',
+    // props: ['showSidebar'],
     data: function () {
         return {
             showNavigation: false
