@@ -90,7 +90,7 @@ export default {
     },
 
     navigateBack:function(password) {
-      this.$router.go(-1);
+      this.$router.push('welcome');
     },
 
     register: function() {
