@@ -2,8 +2,8 @@
     <div id="productsPage" class="page-container md-layout-column">
         <md-toolbar class="md-primary">
             <md-button class="md-icon-button" @click="showNavigation=true"><md-icon>menu</md-icon></md-button>
-            <span class="md-title" v-if="isBuyer">Produkte kaufen</span>
-            <span class="md-title" v-if="!isBuyer">Produkte verkaufen</span>
+            <span class="md-title" v-if="isBuyer" v-model="isBuyer">Produkte kaufen</span>
+            <span class="md-title" v-if="!isBuyer" v-model="isBuyer">Produkte verkaufen</span>
         </md-toolbar>
         <md-drawer :md-active.sync="showNavigation">
             <md-toolbar class="md-transparent" md-elevation="0">
@@ -74,10 +74,11 @@ export default {
     mounted: function() {
         var self = this;
 
-        self.isBuyer = ((self.$route.query.isBuyer == 'true')? true : false);
+        self.isBuyer = ((self.$route.query.isBuyer === 'true' || self.$route.query.isBuyer === true)? true : false);
         setTimeout(function() {
             self.loading = false;
         }, 2000);
+        console.log(self.isBuyer);
     }
 }
 </script>
