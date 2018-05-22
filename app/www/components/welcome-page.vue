@@ -57,7 +57,7 @@
                         Verkaufe Sachen in FleaMaster, die Du nicht mehr benötigst!
                     </md-card-content>
                     <md-card-actions>
-                        <md-button>Produkte verkaufen</md-button>
+                        <md-button @click="productsPage(false)">Produkte verkaufen</md-button>
                     </md-card-actions>
                 </md-card>
             </div>
