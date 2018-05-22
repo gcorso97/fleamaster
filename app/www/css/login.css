@@ -1,121 +1,57 @@
-body{
-    background-color: #F8FFFB;
-    padding-right: 20px;
-    padding-left: 20px;
-    padding-top: 15px
-}
-.mainContainer{
-    background-color: inherit;
-    box-shadow: 0 -210px 5000px 0px #497F5F;
-}
-.faded{
-    background-image:
-      linear-gradient(#D7FFE7, transparent);
-    /*when fade only border
-    background-repeat: no-repeat;
-     */
+.centered-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 100vh;
 }
 
-#logoImage {
-    background-image: url(../img/logo.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    width:200px;
-    height:200px;
-}
-
-#loginLinks {
+.centered-container .title {
     text-align: center;
+    margin-bottom: 30px;
 }
 
-.centered{
-    display: block;
-    margin: auto;
-    margin-bottom: 10PX;
-    width: 50%;
-    padding: 10px;
-}
-.inputField {
-    width: 140px;
-    display: block;
-    border-radius: 5px;
-    margin-top: 10px;
-    margin-bottom:10px;
-    border: none;
-    padding: 10px;
-}
-.buttonShadow{
-    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+.centered-container .title img {
+    margin-bottom: 16px;
+    max-width: 80px;
 }
 
-.buttonShadow:active{
-    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 1), 0 6px 20px 0 rgba(0, 0, 0, 1);
-
+.centered-container .title .md-title {
+    font-weight: bold;
 }
 
-.buttonForm{
-    background-color: #457859;
-    color: white;
-    border-radius: 25px;
+.centered-container .title .md-body-1:not(.error-message) {
+    font-style: italic;
+}
+.centered-container .title .md-body-1.error-message {
+    color: red;
+    font-weight: bolder;
 }
 
-
-/* page Animation */
-.fade-enter-active, .fade-leave-active {
-  transition-property: opacity;
-  transition-duration: .25s;
-}
-.fade-enter-active {
-  transition-delay: .25s;
-}
-.fade-enter, .fade-leave-active {
-  opacity: 0
-}
-.linkFormat{
-    font-size: 12px;
+.centered-container .actions .md-button {
+    margin: 0;
 }
 
-
-
-/*Navbar*/
-
-/* Add a background color to the top navigation */
-.topnav {
-    background-color: #333;
-    overflow: hidden;
+.centered-container .form {
+    margin-bottom: 60px;
 }
 
-/* Style the links inside the navigation bar */
-.topnav div {
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
+.centered-container .background {
+    background: url("./../img/background.png");
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 0;
 }
 
-
-.buttonMain {
-  background: #D7FFE7;
-  font-family: Arial;
-  color: black;
-  font-size: 1em;
-  display: inline-block;
-   margin-right: 5px;
-   padding: 5em;
+.centered-container .md-content {
+    z-index: 1;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
 }
-
-.flex-container > div {
-  background-color: #f1f1f1;
-  margin: 10px;
-  padding: 20px;
-  font-size: 30px;
-}
-
-.mainBtns {
-  display: flex;
-  justify-content: space-around;
-}
-
-/* TODO: CSS classes need to be better organized (for example: global style -> general.css ) */

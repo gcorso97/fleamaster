@@ -1,27 +1,50 @@
 <template>
-    <div id="addItem" class="faded mainContainer">
+    <md-content class="md-elevation-3">
         <form @submit.prevent="addItem">
-            <div id="logoImage" class="centered"></div>
-            <div id="AddingInput" class="centered">
-              <input class="centered" type="text" v-model="item.header" id="header" placeholder="Bezeichnung" required/>
-              <select v-model="item.category" class="centered">
-                <option disabled value="">Wähle eine Kategorie</option>
-                <option>Bekleidung</option>
-                <option>Haushalt</option>
-                <option>Kosmetik</option>
-                <option>Outdoor</option>
-                <option>Technik</option>
-                <option>Unterhaltung</option>
-              </select>
-              <textarea class="centered" type="textarea" v-model="item.description" id="description" placeholder="Beschreibung"></textarea>
-              <input class="centered" v-model="item.price" id="price" placeholder="Verkaufspreis" required/>
-            </div>
-            <button id="addBtn" class="centered buttonShadow buttonForm">Hinzufügen</button>
+            <!-- <div id="logoImage" class="centered"></div> -->
+            <md-card-content>
+                <md-field>
+                    <label>Bezeichnung</label>
+                    <md-input type="text" v-model="item.header" required/>
+                </md-field>
+              <!-- selector does not work -->
+              <!-- <md-select v-model="item.category" class="centered boxShadow"> -->
+
+                  <md-field>
+                      <label>Wähle eine Kategorie</label>
+                      <md-select>
+                          <md-option value="Bekleidung">Bekleidung</md-option>
+                          <md-option value="Haushalt">Haushalt</md-option>
+                          <md-option value="Kosmetik">Kosmetik</md-option>
+                          <md-option value="Outdoor">Outdoor</md-option>
+                          <md-option value="Technik">Technik</md-option>
+                          <md-option value="Unterhaltung">Unterhaltung</md-option>
+                      </md-select>
+                  </md-field>
+
+
+
+            <!-- </md-select> -->
+            <!-- textarea does not work -->
+                <md-field>
+                    <label>Beschreibung</label>
+                    <md-textarea type="textarea" v-model="item.description"></textarea>
+                </md-field>
+
+                <md-field>
+                    <md-input v-model="item.price" id="price" placeholder="Verkaufspreis" required/>
+                </md-field>
+            </md-card-content>
+
+            <md-card-actions>
+                    <md-button class="actions md-raised md-primary">Hinzufügen</md-button>
+            </md-card-actions>
+
         </form>
-        <transition name="fade">
-            <router-view></router-view>
-        </transition>
-    </div>
+    </md-content>
+    <transition name="fade">
+        <router-view></router-view>
+    </transition>
 </template>
 
 <script>

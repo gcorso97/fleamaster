@@ -1,0 +1,47 @@
+.mainContainer{
+    background-color: inherit;
+    box-shadow: 0 -210px 5000px 0px #497F5F;
+}
+.faded{
+    background-image:
+      linear-gradient(#D7FFE7, transparent);
+    /*when fade only border
+    background-repeat: no-repeat;
+     */
+}
+
+/* page Animation */
+.fade-enter-active, .fade-leave-active {
+  transition-property: opacity;
+  transition-duration: .25s;
+}
+.fade-enter-active {
+  transition-delay: .25s;
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
+
+.md-drawer .md-list-item:active,
+.md-drawer .md-list-item:hover {
+  background-color: #dbeeff;
+  cursor: pointer;
+}
+
+.loading-overlay {
+    z-index: 10;
+    top: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.md-content {
+    margin: 30px;
+}

@@ -1,32 +1,48 @@
 <template>
-    <div id="registration" class="faded mainContainer">
-        <form @submit.prevent="register">
-            <div id="logoImage" class="centered"></div>
-            <div id="RegisterInput" class="centered">
+        <md-content class="md-elevation-3">
+            <form @submit.prevent="register">
+                <div id="logoImage" class="centered"></div>
+                <md-card-content>
+                    <md-field>
+                        <label>Vorname</label>
+                        <md-input autofocus type="text" v-model="user.firstname" required/>
+                    </md-field>
+                    <md-field>
+                        <label>Nachname</label>
+                        <md-input autofocus type="text" v-model="user.lastname" required/>
+                    </md-field>
 
-              <div id="personalData">
-              <input class="centered" type="text" v-model="user.firstname" id="firstname" placeholder="Vorname" required/>
-              <input class="centered" type="text" v-model="user.lastname" id="lastname" placeholder="Nachname" required/>
-            </div>
+                    <md-field>
+                        <label>Straße + Hausnummer</label>
+                        <md-input autofocus type="text" v-model="user.street" required/>
+                    </md-field>
+                    <md-field>
+                        <label>Postleitzahl</label>
+                        <md-input autofocus type="text" v-model="user.zipcode" required/>
+                    </md-field>
+                    <md-field>
+                        <label>Ort</label>
+                        <md-input autofocus type="text" v-model="user.city" required/>
+                    </md-field>
 
-            <div id="adressData">
-              <input class="centered" type="text" v-model="user.street" id="street" placeholder="Straße + Hausnummer" required/>
-              <input class="centered" type="text" v-model="user.zipcode" id="zipcode" placeholder="Postleitzahl" required/>
-              <input class="centered" type="text" v-model="user.city" id="city" placeholder="Ort" required/>
-            </div>
+                    <md-field>
+                        <label>E-Mail</label>
+                        <md-input autofocus type="text" v-model="user.mail" required v-on:input="validateRegistration"/>
+                    </md-field>
+                    <md-field>
+                        <label>Passwort</label>
+                        <md-input autofocus type="password" v-model="user.password" required v-on:input="validateRegistration"/>
+                    </md-field>
+                </md-card-content>
 
-            <div id="credentials">
-              <input class="centered" type="text" v-model="user.mail" id="mail" placeholder="E-Mail" required v-on:input="validateRegistration"/>
-              <input class="centered" type="password" v-model="user.password" id="password" placeholder="Passwort" required v-on:input="validateRegistration"/>
-            </div>
-
-            </div>
-            <button id="registerBtn" class="centered buttonShadow buttonForm" disabled>Submit</button>
-        </form>
+                <md-card-actions>
+                    <md-button id="registerBtn" @click="register" class="md-raised md-primary" disabled>Submit</md-button>
+                </md-card-actions>
+            </form>
+        </md-content>
         <transition name="fade">
             <router-view></router-view>
         </transition>
-    </div>
 </template>
 
 <script>
@@ -73,11 +89,16 @@ export default {
       }
     },
 
-        register: function() {
+    navigateBack:function(password) {
+      this.$router.push('welcome');
+    },
+
+    register: function() {
             var self = this;
             console.log(self.user);
             self.$http.post(RESTURL + '/register', {user: self.user}).then(function(response) {
                 console.log(response);
+                self.navigateBack();
             }, function(response) {
                 console.error(response);
             });
