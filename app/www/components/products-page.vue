@@ -37,7 +37,7 @@
             md-icon="store"
             md-label="Noch nichts verkauft"
             md-description="Ein Produkt selbst anzubieten ist einfach. Probiere es doch mal direkt aus!">
-            <md-button class="md-primary md-raised">Produkt anbieten</md-button>
+            <md-button @click="addItem" class="md-primary md-raised">Produkt anbieten</md-button>
             </md-empty-state>
             <md-empty-state v-if="isBuyer"
             md-icon="remove_shopping_cart"
@@ -69,11 +69,12 @@ export default {
         }
     },
     methods: {
-
+      addItem: function() {
+        this.$router.push('addItem');
+      }
     },
     mounted: function() {
         var self = this;
-
         self.isBuyer = ((self.$route.query.isBuyer === 'true' || self.$route.query.isBuyer === true)? true : false);
         setTimeout(function() {
             self.loading = false;
