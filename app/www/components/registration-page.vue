@@ -36,7 +36,7 @@
                 </md-card-content>
 
                 <md-card-actions>
-                    <md-button id="registerBtn" class="md-raised md-primary" disabled>Submit</md-button>
+                    <md-button id="registerBtn" @click="register" class="md-raised md-primary" disabled>Submit</md-button>
                 </md-card-actions>
             </form>
         </md-content>
@@ -89,11 +89,16 @@ export default {
       }
     },
 
-        register: function() {
+    navigateBack:function(password) {
+      this.$router.go(-1);
+    },
+
+    register: function() {
             var self = this;
             console.log(self.user);
             self.$http.post(RESTURL + '/register', {user: self.user}).then(function(response) {
                 console.log(response);
+                self.navigateBack();
             }, function(response) {
                 console.error(response);
             });
