@@ -1,2 +1,10 @@
-platforms/
 node_modules/
+app/platforms/
+app/node_modules/
+app/www/js/bundle.js
+app/www/css/bundle.css
+app/package-lock.json
+app/www/js/app_config.js
+server/package-lock.json
+server/srv_config.json
+server/node_modules

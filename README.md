@@ -11,4 +11,4 @@ It has never been that easy, to search and buy a product in your local area or t
 What are you waiting for? Become the new Fleamaster!
 
 ###### Developing
-To make life easier, rules and guidelines are necessary. Instructions on how to setup your own environment as well as guidelines for coding and requirements and prerequisites, can be found on the [Contributing Guideline](https://github.com/gcorso97/fleamaster/CONTRIBUTING.md).
+To make life easier, rules and guidelines are necessary. Instructions on how to setup your own environment as well as guidelines for coding and requirements and prerequisites, can be found on the [Contributing Guideline](https://github.com/gcorso97/fleamaster/blob/master/CONTRIBUTING.md).

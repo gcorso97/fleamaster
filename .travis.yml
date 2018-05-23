@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "node"
+  - "8"
+before_script:
+  - npm install -g mocha
+  - cd server
+  - npm run createEnv
+  - node server.js &
+  - sleep 30
+services:
+  - mysql

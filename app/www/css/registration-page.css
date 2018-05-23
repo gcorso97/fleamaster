@@ -1,0 +1,17 @@
+/* #personalData {
+  margin-top: 2em;
+}
+
+#adressData {
+  margin-top: 2em;
+}
+
+#credentials {
+  margin-top: 2em;
+} */
+#registration input{
+    height: 3px;
+    width: 140px;
+    border-radius: 5px;
+    border: none;
+}

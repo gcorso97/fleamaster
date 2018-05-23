@@ -1,0 +1,33 @@
+{
+  "name": "fleamaster",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "pretest": "npm run createEnv",
+    "test": "mocha tests/*",
+    "start": "node server.js",
+    "createEnv": "/bin/bash createEnv.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gcorso97/fleamaster.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gcorso97/fleamaster/issues"
+  },
+  "homepage": "https://github.com/gcorso97/fleamaster#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "mocha": "^5.1.1",
+    "mysql": "^2.15.0",
+    "password-hash": "^1.2.2"
+  }
+}
