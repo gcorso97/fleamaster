@@ -33,17 +33,28 @@
             </md-list>
         </md-drawer>
         <md-content>
-            <md-empty-state v-if="!isBuyer"
-            md-icon="store"
-            md-label="Noch nichts verkauft"
-            md-description="Ein Produkt selbst anzubieten ist einfach. Probiere es doch mal direkt aus!">
-            <md-button @click="addItem" class="md-primary md-raised">Produkt anbieten</md-button>
-            </md-empty-state>
-            <md-empty-state v-if="isBuyer"
-            md-icon="remove_shopping_cart"
-            md-label="Noch nichts los"
-            md-description="Es gibt noch keine passenden Produkte. Schau später noch einmal vorbei!">
-            </md-empty-state>
+
+        <md-empty-state v-if="!isBuyer"
+          md-icon="store"
+          md-label="Noch nichts verkauft"
+          md-description="Ein Produkt selbst anzubieten ist einfach. Probiere es doch mal direkt aus!"
+          md-button @click="addItem" class="md-primary md-raised">Produkt anbieten
+        </md-empty-state>
+
+        <div v-if="isBuyer">
+            <div v-if="hasItems">
+            <ul id="itemList">
+              <li v-for="item in items">
+                <h2>{{ item.header}} </h2>
+                <h4>{{ item.description}} </h4>
+              </li>
+            </ul>
+          </div>
+            <div v-if="!hasItems">
+              <p>Hier ist nichts :(</p>
+            </div>
+        </div>
+
             <md-speed-dial :class="topPosition" md-direction="bottom" class="md-bottom-right">
                 <md-speed-dial-target class="md-accent">
                     <md-icon>add</md-icon>
@@ -65,17 +76,35 @@ export default {
         return {
             loading: true,
             showNavigation: false,
-            isBuyer: false
+            isBuyer: false,
+            hasItems: false,
+            items: []
         }
     },
     methods: {
       addItem: function() {
         this.$router.push('addItem');
+      },
+      //Function which gets mock data from a json file to test the view
+      getItems: function () {
+      var self = this;
+      var itemRequest = new XMLHttpRequest();
+
+      itemRequest.onreadystatechange = function () {
+         if (itemRequest.readyState === 4 && itemRequest.status === 200) {
+            var unParsed = itemRequest.responseText;
+            self.items = JSON.parse(unParsed);
+            self.hasItems = (self.items.length != 0) ? true : false;
+         }
+      };
+      itemRequest.open("GET", "js/items.json", true);
+      itemRequest.send();
       }
     },
     mounted: function() {
         var self = this;
         self.isBuyer = ((self.$route.query.isBuyer === 'true' || self.$route.query.isBuyer === true)? true : false);
+        self.getItems();
         setTimeout(function() {
             self.loading = false;
         }, 2000);

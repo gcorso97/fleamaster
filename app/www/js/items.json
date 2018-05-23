@@ -1,0 +1,26 @@
+[
+  {
+    "header": "Ball",
+    "category": "toy",
+    "description": "Blabla hüpf hüpf",
+    "price": "3,0"
+  },
+  {
+    "header": "Rollercoaster",
+    "category": "toy",
+    "description": "Wuuuuuhuuuuiiii",
+    "price": "300000,0"
+  },
+  {
+    "header": "Pogo-Stick",
+    "category": "toy",
+    "description": "bfhesfvrgzazgvraiwgvzi - Awesome!",
+    "price": "30,0"
+  },
+  {
+    "header": "Brownie Book",
+    "category": "books",
+    "description": "Everyday white gold, yes",
+    "price": "3000,0"
+  }
+]
