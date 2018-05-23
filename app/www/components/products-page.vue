@@ -43,12 +43,18 @@
 
         <div v-if="isBuyer">
             <div v-if="hasItems">
-            <ul id="itemList">
-              <li v-for="item in items">
-                <h2>{{ item.header}} </h2>
-                <h4>{{ item.description}} </h4>
-              </li>
-            </ul>
+              <md-list class="md-double-line">
+                <md-list-item v-for="item in items">
+                    <div class="md-list-item-text">
+                      <span>{{ item.header}}</span>
+                      <span>{{ item.description}}</span>
+                      <span>{{ item.price}} €</span>
+                    </div>
+                  <md-button>
+                    <md-icon>shopping_cart</md-icon>
+                  </md-button>
+              </md-list-item>
+            <md-list>
           </div>
             <div v-if="!hasItems">
               <p>Hier ist nichts :(</p>
