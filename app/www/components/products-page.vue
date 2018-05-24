@@ -60,8 +60,7 @@
               <p>Hier ist nichts :(</p>
             </div>
         </div>
-
-            <md-speed-dial :class="topPosition" md-direction="bottom" class="md-bottom-right">
+            <md-speed-dial :class="topPosition" md-direction="bottom" class="md-bottom-right" v-if="!isBuyer">
                 <md-speed-dial-target class="md-accent">
                     <md-icon>add</md-icon>
                 </md-speed-dial-target>
