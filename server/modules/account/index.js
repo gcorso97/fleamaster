@@ -100,5 +100,17 @@ module.exports = {
                 else res.status(409).json({error: {code: 409, message: err}});
             });
         } else res.status(409).json({error: {code: 422, message: srv_error.INVALID_PARAM}});
+    },
+    /**
+     * Logout request handler
+     * @param {Object} req the server request
+     * @param {Object} res the server response
+     */
+    logout: (req, res) => {
+        // completely destroy the session
+        req.session.destroy(err => {
+            if(!err) res.json({loggedOut: true});
+            else res.status(409).json({error: {code: 409, message: err}});
+        });
     }
 };
