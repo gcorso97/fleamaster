@@ -1,4 +1,5 @@
 <template>
+<div id="addItem" class="page-container md-layout-column">
   <md-toolbar class="md-primary">
       <md-button class="md-icon-button" @click="showNavigation=true"><md-icon>menu</md-icon></md-button>
       <span class="md-title">Dashboard</span>
@@ -38,6 +39,7 @@
       </md-list>
   </md-drawer>
     <md-content class="md-elevation-3">
+
         <form @submit.prevent="addItem">
             <!-- <div id="logoImage" class="centered"></div> -->
             <md-card-content>
@@ -83,6 +85,7 @@
     <transition name="fade">
         <router-view></router-view>
     </transition>
+  </div>
 </template>
 
 <script>
