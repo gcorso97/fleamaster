@@ -9,6 +9,7 @@
         <md-drawer :md-active.sync="showNavigation">
             <md-toolbar class="md-transparent" md-elevation="0">
                 <span class="md-title">FleaMaster</span>
+                <button @click="showNavigation=false">Close</button>
             </md-toolbar>
             <md-list>
                 <md-list-item>
@@ -30,6 +31,10 @@
                 <md-list-item>
                     <md-icon>person</md-icon>
                     <span class="md-list-item-text">Profil</span>
+                </md-list-item>
+                <md-list-item>
+                    <md-icon>logout</md-icon>
+                    <span class="md-list-item-text">Abmelden</span>
                 </md-list-item>
             </md-list>
         </md-drawer>

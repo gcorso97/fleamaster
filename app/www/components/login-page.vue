@@ -46,12 +46,20 @@ export default {
         };
     },
     methods: {
+      /**
+       * Validates Userinput and switches status of the login button
+       */
         validateInput: function () {
             var self = this;
 
             loginBtn.disabled = !(self.validMail(self.mail) && self.validPassword(self.password));
             self.invalidCredentials = false;
         },
+        /**
+         * Description of function
+         * @param  {String} the email which the user entered
+         * @return {Boolean} says if email matches regexp or not
+         */
         validMail: function(mail) {
             var regExpMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 

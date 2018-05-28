@@ -24,6 +24,10 @@
                 <md-icon>person</md-icon>
                 <span class="md-list-item-text">Profil</span>
             </md-list-item>
+            <md-list-item>
+                <md-icon>logout</md-icon>
+                <span class="md-list-item-text">Abmelden</span>
+            </md-list-item>
         </md-list>
     </md-drawer>
 </template>
