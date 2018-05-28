@@ -42,6 +42,7 @@ app.use((req, res, next) => {
 // request routes
 app.post('/register', account.register);
 app.post('/login', account.login);
+app.post('/logout', account.logout);
 
 // requested route not found
 app.use((req, res) => {
