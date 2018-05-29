@@ -78,7 +78,7 @@ module.exports = {
      */
     register: (req, res) => {
         // validate params
-        if(req && req.body && req.body.user && isValidMail(req.body.user.mail) && isValidPassword(req.body.user.password)) {
+        if(req.body.user && isValidMail(req.body.user.mail) && isValidPassword(req.body.user.password)) {
             register(req.body.user, (err, registered) => {
                 // start authenticated session if no error
                 if(!err && registered) res.json({authenticated: req.session.authenticated = true});
@@ -93,7 +93,7 @@ module.exports = {
      */
     login: (req, res) => {
         // validate params
-        if(req && req.body && isValidMail(req.body.mail) && isValidPassword(req.body.password)) {
+        if(isValidMail(req.body.mail) && isValidPassword(req.body.password)) {
             login(req.body.mail, req.body.password, (err, loggedIn) => {
                 // start authenticated session if no error
                 if(!err && loggedIn) res.json({authenticated: req.session.authenticated = true});
