@@ -12,18 +12,21 @@
           <button @click="showNavigation=false">Close</button>
       </md-toolbar>
       <md-list>
-          <md-list-item>
-              <md-icon>dashboard</md-icon>
-              <span class="md-list-item-text">Dashboard</span>
-          </md-list-item>
-          <md-list-item>
-              <md-icon>shopping_basket</md-icon>
-              <span class="md-list-item-text">Produkte kaufen</span>
-          </md-list-item>
-          <md-list-item>
-              <md-icon>store</md-icon>
-              <span class="md-list-item-text">Produkte verkaufen</span>
-          </md-list-item>
+        <md-list-item href="#/welcome">
+            <md-icon>dashboard</md-icon>
+            <span class="md-list-item-text">Dashboard</span>
+        </md-list-item>
+      </md-list-item>
+      <md-list-item href="#/products?isBuyer=true">
+          <md-icon>shopping_basket</md-icon>
+          <span class="md-list-item-text">Produkte kaufen</span>
+      </md-list-item>
+      <md-list-item href="#/products?isBuyer=false">
+          <md-icon>store</md-icon>
+          <span class="md-list-item-text">Produkte verkaufen</span>
+      </md-list-item>
+            <span class="md-list-item-text">Produkte verkaufen</span>
+        </md-list-item>
           <md-list-item>
               <md-icon>person</md-icon>
               <span class="md-list-item-text">Profil</span>

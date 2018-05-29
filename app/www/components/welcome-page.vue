@@ -12,15 +12,15 @@
                 <button @click="showNavigation=false">Close</button>
             </md-toolbar>
             <md-list>
-                <md-list-item>
+                <md-list-item href="#/welcome">
                     <md-icon>dashboard</md-icon>
                     <span class="md-list-item-text">Dashboard</span>
                 </md-list-item>
-                <md-list-item>
+                <md-list-item href="#/products?isBuyer=true">
                     <md-icon>shopping_basket</md-icon>
-                    <span class="md-list-item-text" href="#products">Produkte kaufen</span>
+                    <span class="md-list-item-text">Produkte kaufen</span>
                 </md-list-item>
-                <md-list-item>
+                <md-list-item href="#/products?isBuyer=false">
                     <md-icon>store</md-icon>
                     <span class="md-list-item-text">Produkte verkaufen</span>
                 </md-list-item>
