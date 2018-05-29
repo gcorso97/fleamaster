@@ -40,7 +40,7 @@ let register = (userObj, callback) => {
                     // register user
                     db.query('INSERT INTO user (firstname, lastname, city, zipcode, street, mail, pwd_hash) ' + 
                     'VALUES (?, ?, ?, ?, ?, ?, ?)', [userObj.firstname, userObj.lastname, userObj.city, userObj.zipcode, userObj.street, userObj.mail, generatedPW], (err, queryRes) => {
-                        callback(err, ((!err)? true : false));
+                        callback(err, ((!err && queryRes)? queryRes.insertId : false));
                     });
                 }
             } else callback(srv_error.DB_QUERY, null);
@@ -58,10 +58,10 @@ let register = (userObj, callback) => {
  */
 let login = (mail, password, callback) => {
     // search for existing account
-    db.query('SELECT pwd_hash FROM user WHERE mail=?', [mail], (err, queryRes) => {
+    db.query('SELECT id, pwd_hash FROM user WHERE mail=?', [mail], (err, queryRes) => {
         if(!err && queryRes && queryRes.length) {
             // compare password
-            if(passwordHash.verify(password, queryRes[0].pwd_hash)) callback(null, true);
+            if(passwordHash.verify(password, queryRes[0].pwd_hash)) callback(null, queryRes[0].id);
             else callback(srv_error.INVALID_CREDENTIALS, null);
         } else callback(((err)? err : srv_error.USER_NOT_EXISTS), null);
     });
@@ -79,9 +79,9 @@ module.exports = {
     register: (req, res) => {
         // validate params
         if(req.body.user && isValidMail(req.body.user.mail) && isValidPassword(req.body.user.password)) {
-            register(req.body.user, (err, registered) => {
+            register(req.body.user, (err, userId) => {
                 // start authenticated session if no error
-                if(!err && registered) res.json({authenticated: req.session.authenticated = true});
+                if(!err && userId) res.json({authenticated: req.session.authenticated = userId});
                 else res.status(409).json({error: {code: 409, message: err}});
             });
         } else res.status(422).json({error: {code: 422, message: srv_error.INVALID_PARAM}});
@@ -94,9 +94,9 @@ module.exports = {
     login: (req, res) => {
         // validate params
         if(isValidMail(req.body.mail) && isValidPassword(req.body.password)) {
-            login(req.body.mail, req.body.password, (err, loggedIn) => {
+            login(req.body.mail, req.body.password, (err, userId) => {
                 // start authenticated session if no error
-                if(!err && loggedIn) res.json({authenticated: req.session.authenticated = true});
+                if(!err && userId) res.json({authenticated: req.session.authenticated = userId});
                 else res.status(409).json({error: {code: 409, message: err}});
             });
         } else res.status(409).json({error: {code: 422, message: srv_error.INVALID_PARAM}});
