@@ -21,10 +21,6 @@
               <span class="md-list-item-text">Produkte kaufen</span>
           </md-list-item>
           <md-list-item>
-              <md-icon>history</md-icon>
-              <span class="md-list-item-text">Meine Einkäufe</span>
-          </md-list-item>
-          <md-list-item>
               <md-icon>store</md-icon>
               <span class="md-list-item-text">Produkte verkaufen</span>
           </md-list-item>
@@ -33,7 +29,7 @@
               <span class="md-list-item-text">Profil</span>
           </md-list-item>
           <md-list-item>
-              <md-icon>logout</md-icon>
+              <md-icon>exit_to_app</md-icon>
               <span class="md-list-item-text">Abmelden</span>
           </md-list-item>
       </md-list>
@@ -61,7 +57,6 @@
                           <md-option value="Unterhaltung">Unterhaltung</md-option>
                       </md-select>
                   </md-field>
-
 
 
             <!-- </md-select> -->

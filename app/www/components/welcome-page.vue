@@ -18,11 +18,7 @@
                 </md-list-item>
                 <md-list-item>
                     <md-icon>shopping_basket</md-icon>
-                    <span class="md-list-item-text">Produkte kaufen</span>
-                </md-list-item>
-                <md-list-item>
-                    <md-icon>history</md-icon>
-                    <span class="md-list-item-text">Meine Einkäufe</span>
+                    <span class="md-list-item-text" href="#products">Produkte kaufen</span>
                 </md-list-item>
                 <md-list-item>
                     <md-icon>store</md-icon>
@@ -33,7 +29,7 @@
                     <span class="md-list-item-text">Profil</span>
                 </md-list-item>
                 <md-list-item>
-                    <md-icon>logout</md-icon>
+                    <md-icon>exit_to_app</md-icon>
                     <span class="md-list-item-text">Abmelden</span>
                 </md-list-item>
             </md-list>
