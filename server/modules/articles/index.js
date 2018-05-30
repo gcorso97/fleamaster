@@ -40,6 +40,15 @@ let getArticles = (user, searchObj, callback) => {
 };
 
 /**
+ * Retrieves article from database for given article id
+ * @param {String} article the article id
+ * @param {Function} callback callback function
+ */
+let getArticle = (article, callback) => {
+    db.query('SELECT * FROM article WHERE id=?', [article], (err, queryRes) => callback(err, queryRes));
+};
+
+/**
  * Articles module
  */
 module.exports = {
@@ -93,6 +102,23 @@ module.exports = {
                 if(!err && articlesRes) res.json({articles: articlesRes});
                 else res.status(409).json({error: {code: 409, message: err}});
             });
+        } else res.status(401).json({error: {code: 401, message: srv_error.UNAUTHORIZED}});
+    },
+    /**
+     * getArticle request handler
+     * @param {Object} res the server request
+     * @param {Object} res the server response
+     */
+    getArticle: (req, res) => {
+        // check if authenticated
+        if(req.session.authenticated) {
+            // validate params
+            if(parseInt(req.query.id)) {
+                getArticle(req.query.id, (err, articleRes) => {
+                    if(!err && articleRes) res.json({article: articleRes});
+                    else res.status(409).json({error: {code: 409, message: err}});
+                });
+            } else res.status(422).json({error: {code: 422, message: srv_error.INVALID_PARAM}});
         } else res.status(401).json({error: {code: 401, message: srv_error.UNAUTHORIZED}});
     }
 };
