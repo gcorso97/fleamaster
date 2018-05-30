@@ -29,4 +29,24 @@ describe('register request', () => {
             done();
         });
     });
+
+    /**
+     * Register request test for invalid mail
+     * @param {Function} done callback function
+     */
+    it('reqister request with invalid mail', done => {
+        chai.request(RESTURL).post('register').set('content-type', 'application/json').send(
+            {user: {mail: 'invalidMail', password: "password"}}
+        ).end((err, res) => {
+            should.not.exist(err);
+            should.exist(res);
+            res.should.have.status(422);
+            res.should.be.json;
+            res.should.have.property('body');
+            res.body.should.have.property('error').to.be.an('object');
+            res.body.error.should.have.property('code').equal(422);
+            res.body.error.should.have.property('message').equal(srv_error.INVALID_PARAM);
+            done();
+        });
+    });
 });

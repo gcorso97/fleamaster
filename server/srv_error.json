@@ -5,6 +5,7 @@
     "INVALID_CREDENTIALS": "Invalid credentials. Password wrong.",
     "USER_NOT_EXISTS": "The requested user does not exist.",
     "HASH_FAILED": "There was an error during processing your registration.",
-    "ALREADY_REGISTED": "The user already exists.",
-    "DB_QUERY": "Error on database."
+    "ALREADY_REGISTERED": "The user already exists.",
+    "DB_QUERY": "Error on database.",
+    "UNAUTHORIZED": "Not allowed to proceed with request. Ensure that you are authenticated."
 }

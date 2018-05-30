@@ -6,7 +6,8 @@ var express = require('express'),
     session = require('express-session'),
     bodyParser = require('body-parser'),
     mysql = require('mysql'),
-    account = require('./modules/account');
+    account = require('./modules/account'),
+    articles = require('./modules/articles');
 
 // session handling
 app.use(session({
@@ -43,6 +44,8 @@ app.use((req, res, next) => {
 app.post('/register', account.register);
 app.post('/login', account.login);
 app.post('/logout', account.logout);
+app.get('/categories', articles.getCategories);
+app.post('/article', articles.addArticle);
 
 // requested route not found
 app.use((req, res) => {
