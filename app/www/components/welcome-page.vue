@@ -28,7 +28,7 @@
                     <md-icon>person</md-icon>
                     <span class="md-list-item-text">Profil</span>
                 </md-list-item>
-                <md-list-item>
+                <md-list-item @click="logout()">
                     <md-icon>exit_to_app</md-icon>
                     <span class="md-list-item-text">Abmelden</span>
                 </md-list-item>
@@ -98,6 +98,20 @@ export default {
     methods: {
         productsPage: function(isBuyer) {
             this.$router.push({path: 'products', query: {isBuyer: isBuyer}});
+        },
+
+        logout: function() {
+          var self = this;
+          self.$http.post(RESTURL + '/logout').then(function(response) {
+              // success
+              self.loading = true;
+              console.log(response);
+              self.$router.push('/');
+          }, function(response) {
+              // error
+              self.loading = false;
+              console.error(response);
+          });
         }
     }
 }

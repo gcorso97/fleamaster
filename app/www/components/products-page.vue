@@ -29,7 +29,7 @@
                   <md-icon>person</md-icon>
                   <span class="md-list-item-text">Profil</span>
               </md-list-item>
-              <md-list-item>
+              <md-list-item @click="logout()">
                   <md-icon>exit_to_app</md-icon>
                   <span class="md-list-item-text">Abmelden</span>
               </md-list-item>
@@ -93,6 +93,20 @@ export default {
       addItem: function() {
         this.$router.push('addItem');
       },
+
+      logout: function() {
+          var self = this;
+          self.$http.post(RESTURL + '/logout').then(function(response) {
+              // success
+              self.loading = true;
+              console.log(response);
+              self.$router.push('/');
+          }, function(response) {
+              // error
+              self.loading = false;
+              console.error(response);
+          });
+        },
       //Function which gets mock data from a json file to test the view
       getItems: function () {
       var self = this;
@@ -107,16 +121,16 @@ export default {
       };
       itemRequest.open("GET", "js/items.json", true);
       itemRequest.send();
-      }
-    },
-    mounted: function() {
-        var self = this;
-        self.isBuyer = ((self.$route.query.isBuyer === 'true' || self.$route.query.isBuyer === true)? true : false);
-        self.getItems();
-        setTimeout(function() {
-            self.loading = false;
-        }, 2000);
-        console.log(self.isBuyer);
     }
+  },
+  mounted: function() {
+      var self = this;
+      self.isBuyer = ((self.$route.query.isBuyer === 'true' || self.$route.query.isBuyer === true)? true : false);
+      self.getItems();
+      setTimeout(function() {
+          self.loading = false;
+      }, 2000);
+      console.log(self.isBuyer);
+  }
 }
 </script>
