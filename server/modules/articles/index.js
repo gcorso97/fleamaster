@@ -1,5 +1,5 @@
 var srv_error = require('./../../srv_error.json'),
-    db = require('./../db').getPool();
+    db = require('./../db');
 
 /**
  * Retrieves categories from database
@@ -20,6 +20,22 @@ let addArticle = (user, articleObj, callback) => {
     // add the article
     db.query('INSERT INTO article (user, title, description, category, price) VALUES (?, ?, ?, ?, ?)', [
         user, articleObj.title, articleObj.description, articleObj.category, articleObj.price
+    ], (err, queryRes) => callback(err, queryRes));
+};
+
+/**
+ * Retrieves articles from databases that matches optional search term
+ * @param {String} user the user id
+ * @param {Object} [searchObj] optional search object containing search terms such as title to search for
+ * @param {Function} callback callback function
+ */
+let getArticles = (user, searchObj, callback) => {
+    // ensure that search object is an object
+    searchObj = ((searchObj != null && typeof searchObj === 'object')? searchObj : {});
+    // get all articles that are not from user itself and matches the search
+    db.query('SELECT * FROM article WHERE user !=? AND title LIKE ? AND description LIKE ? AND category LIKE ? AND price <= ?', [
+        user, '%' + (searchObj.title || '') + '%', '%' + (searchObj.description || '') + '%', 
+        '%' + (searchObj.category || '') + '%', parseFloat(searchObj.price) ||9999
     ], (err, queryRes) => callback(err, queryRes));
 };
 
@@ -57,6 +73,26 @@ module.exports = {
                     else res.status(409).json({error: {code: 409, message: err}});
                 });
             } else res.status(409).json({error: {code: 409, message: srv_error.INVALID_PARAM}});
+        } else res.status(401).json({error: {code: 401, message: srv_error.UNAUTHORIZED}});
+    },
+    /**
+     * getArticles request handler
+     * @param {Object} req the server request
+     * @param {Object} res the server response
+     */
+    getArticles: (req, res) => {
+        // check if authenticated
+        if(req.session.authenticated) {
+            // get articles with may given search filters
+            getArticles(req.session.authenticated, {
+                title: req.query.title,
+                description: req.query.description,
+                category: req.query.category,
+                price: req.query.price
+            }, (err, articlesRes) => {
+                if(!err && articlesRes) res.json({articles: articlesRes});
+                else res.status(409).json({error: {code: 409, message: err}});
+            });
         } else res.status(401).json({error: {code: 401, message: srv_error.UNAUTHORIZED}});
     }
 };

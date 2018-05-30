@@ -12,15 +12,6 @@ var srv_config = require('./../../srv_config.json'),
  */
 module.exports = {
     /**
-     * Returns generated instance - required on module binding
-     * NOTE: Required - otherwise multiple pools will be created!
-     * @example var db = require('./db').getPool();
-     * @returns {Object} returns instance of pool database
-     */
-    getPool: () => {
-        return db;
-    },
-    /**
      * Queries the database with given SQL query and paramaters
      * NOTE: Automatically parametrizes the query to prevent SQL injection
      * @example 
@@ -33,7 +24,10 @@ module.exports = {
      */
     query: (sql, params, callback) => {
         if(typeof sql === 'string' && Array.isArray(params)) {
-            db.query(mysql.format(sql, params), (err, queryRes) => {
+            var querySQL = mysql.format(sql, params);
+
+            db.query(querySQL, (err, queryRes) => {
+                if(srv_config.DEBUG) console.log(((err)? 'ERROR SQL: ' + err : querySQL));
                 callback(err, queryRes);
             });
         } else if(typeof callback === 'function') callback(srv_error.INVALID_PARAM, null);

@@ -5,7 +5,6 @@ var express = require('express'),
     cors = require('cors'),
     session = require('express-session'),
     bodyParser = require('body-parser'),
-    mysql = require('mysql'),
     account = require('./modules/account'),
     articles = require('./modules/articles');
 
@@ -46,6 +45,7 @@ app.post('/login', account.login);
 app.post('/logout', account.logout);
 app.get('/categories', articles.getCategories);
 app.post('/article', articles.addArticle);
+app.get('/articles', articles.getArticles);
 
 // requested route not found
 app.use((req, res) => {
