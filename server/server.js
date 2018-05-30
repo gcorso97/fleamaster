@@ -48,6 +48,7 @@ app.post('/article', articles.addArticle);
 app.get('/articles', articles.getArticles);
 app.get('/article', articles.getArticle);
 app.delete('/article', articles.deleteArticle);
+app.post('/buy', articles.buyArticle);
 
 // requested route not found
 app.use((req, res) => {

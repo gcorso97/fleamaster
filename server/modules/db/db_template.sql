@@ -33,6 +33,8 @@ CREATE TABLE `article` (
   `description` MEDIUMTEXT NOT NULL,
   `category` INT NOT NULL,
   `price` FLOAT NOT NULL,
+  `buyer` INT DEFAULT NULL,
   FOREIGN KEY (`category`) REFERENCES `category`(`id`),
-  FOREIGN KEY (`user`) REFERENCES `user`(`id`)
+  FOREIGN KEY (`user`) REFERENCES `user`(`id`),
+  FOREIGN KEY (`buyer`) REFERENCES `user`(`id`)
 );

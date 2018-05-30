@@ -33,7 +33,7 @@ let getArticles = (user, searchObj, callback) => {
     // ensure that search object is an object
     searchObj = ((searchObj != null && typeof searchObj === 'object')? searchObj : {});
     // get all articles that are not from user itself and matches the search
-    db.query('SELECT * FROM article WHERE user !=? AND title LIKE ? AND description LIKE ? AND category LIKE ? AND price <= ?', [
+    db.query('SELECT * FROM article WHERE user !=? AND buyer IS NULL AND title LIKE ? AND description LIKE ? AND category LIKE ? AND price <= ?', [
         user, '%' + (searchObj.title || '') + '%', '%' + (searchObj.description || '') + '%', 
         '%' + (searchObj.category || '') + '%', parseFloat(searchObj.price) ||9999
     ], (err, queryRes) => callback(err, queryRes));
@@ -46,6 +46,24 @@ let getArticles = (user, searchObj, callback) => {
  */
 let getArticle = (article, callback) => {
     db.query('SELECT * FROM article WHERE id=?', [article], (err, queryRes) => callback(err, queryRes));
+};
+
+/**
+ * Buys given article
+ * NOTE: User can only buy not own created articles and articles, that aren't bought from others
+ * @param {String} user the user id
+ * @param {String} article the article id
+ * @param {Function} callback callback function
+ */
+let buyArticle = (user, article, callback) => {
+    // get the article
+    getArticle(article, (err, articleRes) => {
+        // check if article exists, is available and is not from the user itself
+        if(!err && articleRes && articleRes[0] && articleRes[0].user !== user && !articleRes[0].buyer) {
+            // set the buyer reference
+            db.query('UPDATE article SET buyer=? WHERE id=?', [user, article], (err, queryRes) => callback(err, queryRes));
+        } else callback(err || srv_error.INVALID_PARAM, null);
+    })
 };
 
 /**
@@ -127,6 +145,23 @@ module.exports = {
             if(parseInt(req.query.id)) {
                 getArticle(req.query.id, (err, articleRes) => {
                     if(!err && articleRes) res.json({article: articleRes});
+                    else res.status(409).json({error: {code: 409, message: err}});
+                });
+            } else res.status(422).json({error: {code: 422, message: srv_error.INVALID_PARAM}});
+        } else res.status(401).json({error: {code: 401, message: srv_error.UNAUTHORIZED}});
+    },
+    /**
+     * buyArticle request handler
+     * @param {Object} req the server request
+     * @param {Object} res the server response
+     */
+    buyArticle: (req, res) => {
+        // check if authenticated
+        if(req.session.authenticated) {
+            // validate params
+            if(parseInt(req.body.id)) {
+                buyArticle(req.session.authenticated, req.body.id, (err, buyRes) => {
+                    if(!err && buyRes) res.json({bought: true});
                     else res.status(409).json({error: {code: 409, message: err}});
                 });
             } else res.status(422).json({error: {code: 422, message: srv_error.INVALID_PARAM}});
