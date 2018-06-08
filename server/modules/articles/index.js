@@ -40,6 +40,15 @@ let getArticles = (user, searchObj, callback) => {
 };
 
 /**
+ * Retrieves articles from database that were created from user
+ * @param {String} user the user id
+ * @param {Function} callback callback function
+ */
+let getSoldArticles = (user, callback) => {
+    db.query('SELECT * FROM article WHERE user=?', [user], (err, queryRes) => callback(err, queryRes));
+};
+
+/**
  * Retrieves article from database for given article id
  * @param {String} article the article id
  * @param {Function} callback callback function
@@ -129,6 +138,21 @@ module.exports = {
                 price: req.query.price
             }, (err, articlesRes) => {
                 if(!err && articlesRes) res.json({articles: articlesRes});
+                else res.status(409).json({error: {code: 409, message: err}});
+            });
+        } else res.status(401).json({error: {code: 401, message: srv_error.UNAUTHORIZED}});
+    },
+    /**
+     * getSoldArticles request handler
+     * @param {Object} req the server request
+     * @param {Object} res the server response
+     */
+    getSoldArticles: (req, res) => {
+        // check if authenticated
+        if(req.session.authenticated) {
+            // get articles that were created / sold from user
+            getSoldArticles(req.session.authenticated, (err,soldArticlesRes) => {
+                if(!err && soldArticlesRes) res.json({articles: soldArticlesRes});
                 else res.status(409).json({error: {code: 409, message: err}});
             });
         } else res.status(401).json({error: {code: 401, message: srv_error.UNAUTHORIZED}});
