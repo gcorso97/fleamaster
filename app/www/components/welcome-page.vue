@@ -1,39 +1,12 @@
 <template>
     <div id="welcomePage" class="page-container md-layout-column">
         <md-toolbar class="md-primary">
-            <md-button class="md-icon-button" @click="showNavigation=true"><md-icon>menu</md-icon></md-button>
+            <md-button class="md-icon-button" @click="showSidebar=true">
+                <md-icon>menu</md-icon>
+            </md-button>
             <span class="md-title">Dashboard</span>
         </md-toolbar>
-        <!-- drawer TODO -->
-        <!-- <Sidebar></Sidebar> -->
-        <md-drawer :md-active.sync="showNavigation">
-            <md-toolbar class="md-transparent" md-elevation="0">
-                <span class="md-title">FleaMaster</span>
-                <button @click="showNavigation=false">Close</button>
-            </md-toolbar>
-            <md-list>
-                <md-list-item href="#/welcome">
-                    <md-icon>dashboard</md-icon>
-                    <span class="md-list-item-text">Dashboard</span>
-                </md-list-item>
-                <md-list-item href="#/products?isBuyer=true">
-                    <md-icon>shopping_basket</md-icon>
-                    <span class="md-list-item-text">Produkte kaufen</span>
-                </md-list-item>
-                <md-list-item href="#/products?isBuyer=false">
-                    <md-icon>store</md-icon>
-                    <span class="md-list-item-text">Produkte verkaufen</span>
-                </md-list-item>
-                <md-list-item>
-                    <md-icon>person</md-icon>
-                    <span class="md-list-item-text">Profil</span>
-                </md-list-item>
-                <md-list-item @click="logout()">
-                    <md-icon>exit_to_app</md-icon>
-                    <span class="md-list-item-text">Abmelden</span>
-                </md-list-item>
-            </md-list>
-        </md-drawer>
+        <Sidebar v-bind:showSidebar="showSidebar" v-on:hide-sidebar="showSidebar=false"></Sidebar>
         <md-content>
             <p class="md-display-1 welcome-title">Willkommen zurück!</p>
             <div class="half-cards">
@@ -84,35 +57,39 @@
 </template>
 
 <script>
-// import Sidebar from './sidebar.vue'; TODO
+    import Sidebar from './sidebar.vue';
 
-export default {
-    data: function () {
-        return {
-            showNavigation: false
-        }
-    },
-    components: {
-        // Sidebar: Sidebar TODO // we need to be able to change property showNavigation for other component
-    },
-    methods: {
-        productsPage: function(isBuyer) {
-            this.$router.push({path: 'products', query: {isBuyer: isBuyer}});
+    export default {
+        data: function () {
+            return {
+                showSidebar: false
+            }
         },
-
-        logout: function() {
-          var self = this;
-          self.$http.post(RESTURL + '/logout').then(function(response) {
-              // success
-              self.loading = true;
-              console.log(response);
-              self.$router.push('/');
-          }, function(response) {
-              // error
-              self.loading = false;
-              console.error(response);
-          });
+        components: {
+            Sidebar: Sidebar
+        },
+        methods: {
+            productsPage: function (isBuyer) {
+                this.$router.push({
+                    path: 'products',
+                    query: {
+                        isBuyer: isBuyer
+                    }
+                });
+            },
+            logout: function () {
+                var self = this;
+                self.$http.post(RESTURL + '/logout').then(function (response) {
+                    // success
+                    self.loading = true;
+                    console.log(response);
+                    self.$router.push('/');
+                }, function (response) {
+                    // error
+                    self.loading = false;
+                    console.error(response);
+                });
+            }
         }
     }
-}
 </script>
