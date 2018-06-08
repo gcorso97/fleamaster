@@ -47,6 +47,7 @@ app.get('/categories', articles.getCategories);
 app.post('/article', articles.addArticle);
 app.get('/articles', articles.getArticles);
 app.get('/soldarticles', articles.getSoldArticles);
+app.get('/boughtarticles', articles.getBoughtArticles);
 app.get('/article', articles.getArticle);
 app.delete('/article', articles.deleteArticle);
 app.post('/buy', articles.buyArticle);
