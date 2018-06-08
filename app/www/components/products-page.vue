@@ -65,20 +65,6 @@
             addItem: function () {
                 this.$router.push('addItem');
             },
-
-            logout: function () {
-                var self = this;
-                self.$http.post(RESTURL + '/logout').then(function (response) {
-                    // success
-                    self.loading = true;
-                    console.log(response);
-                    self.$router.push('/');
-                }, function (response) {
-                    // error
-                    self.loading = false;
-                    console.error(response);
-                });
-            },
             //Function which gets mock data from a json file to test the view
             getItems: function () {
                 var self = this;
@@ -95,15 +81,15 @@
                 itemRequest.send();
             }
         },
-        mounted: function () {
+        created: function() {
             var self = this;
+
             self.isBuyer = ((self.$route.query.isBuyer === 'true' || self.$route.query.isBuyer === true) ? true :
                 false);
             self.getItems();
             setTimeout(function () {
                 self.loading = false;
             }, 2000);
-            console.log(self.isBuyer);
         }
     }
 </script>

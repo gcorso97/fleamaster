@@ -8,45 +8,30 @@
         </md-toolbar>
         <Sidebar v-bind:showSidebar="showSidebar" v-on:hide-sidebar="showSidebar=false"></Sidebar>
         <md-content class="md-elevation-3">
-
             <form @submit.prevent="addItem">
                 <md-card-content>
+                    <div class="md-body-1 error-message" v-if="articleError">Fehler beim Anbieten des Produktes</div>
                     <md-field>
                         <label>Bezeichnung</label>
-                        <md-input type="text" v-model="item.header" required/>
+                        <md-input autofocus type="text" v-model="item.title" required/>
                     </md-field>
-                    <!-- selector does not work -->
-                    <!-- <md-select v-model="item.category" class="centered boxShadow"> -->
-
                     <md-field>
                         <label>Wähle eine Kategorie</label>
-                        <md-select>
-                            <md-option value="Bekleidung">Bekleidung</md-option>
-                            <md-option value="Haushalt">Haushalt</md-option>
-                            <md-option value="Kosmetik">Kosmetik</md-option>
-                            <md-option value="Outdoor">Outdoor</md-option>
-                            <md-option value="Technik">Technik</md-option>
-                            <md-option value="Unterhaltung">Unterhaltung</md-option>
+                        <md-select v-for="(category, index) in categories" :key="index" v-model="item.category" required>
+                            <md-option :value="category.id">{{category.name}}</md-option>
                         </md-select>
                     </md-field>
-
-
-                    <!-- </md-select> -->
-                    <!-- textarea does not work -->
                     <md-field>
                         <label>Beschreibung</label>
                         <md-textarea type="textarea" v-model="item.description"></md-textarea>
                     </md-field>
-
                     <md-field>
-                        <md-input v-model="item.price" id="price" placeholder="Verkaufspreis" required/>
+                        <md-input v-model="item.price" id="price" type="number" min=1 max=9999 placeholder="Verkaufspreis" required/>
                     </md-field>
                 </md-card-content>
-
                 <md-card-actions>
-                    <md-button class="actions md-raised md-primary">Hinzufügen</md-button>
+                    <md-button class="actions md-raised md-primary" @click="addItem">Anbieten</md-button>
                 </md-card-actions>
-
             </form>
         </md-content>
         <transition name="fade">
@@ -62,12 +47,14 @@
         data: function () {
             return {
                 item: {
-                    header: '',
+                    title: '',
                     category: '',
                     description: '',
                     price: ''
                 },
-                showSidebar: false
+                showSidebar: false,
+                categories: [],
+                articleError: false
             };
         },
         components: {
@@ -79,28 +66,26 @@
              */
             addItem: function () {
                 var self = this;
-                console.log(self.item);
-                self.$http.post(RESTURL + '/addItem', {
-                    item: self.item
+
+                self.$http.post(RESTURL + '/article', {
+                    article: self.item
                 }).then(function (response) {
-                    console.log(response);
-                }, function (response) {
-                    console.error(response);
-                });
-            },
-            logout: function () {
-                var self = this;
-                self.$http.post(RESTURL + '/logout').then(function (response) {
-                    // success
-                    self.loading = true;
-                    console.log(response);
-                    self.$router.push('/');
-                }, function (response) {
-                    // error
-                    self.loading = false;
-                    console.error(response);
+                    // go back to products sell page
+                    self.$router.push({path: 'products', query: {isBuyer: false}});
+                }, function (error) {
+                    self.articleError = true;
                 });
             }
+        },
+        created: function() {
+           var self = this;
+
+           self.$http.get(RESTURL + '/categories', {}).then(function(response) {
+               self.categories = response.body.categories;
+               console.log(self.categories);
+           }, function(error) {
+               console.error(error);
+           });
         }
     };
 </script>

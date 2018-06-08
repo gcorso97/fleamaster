@@ -23,7 +23,7 @@
 .centered-container .title .md-body-1:not(.error-message) {
     font-style: italic;
 }
-.centered-container .title .md-body-1.error-message {
+.md-body-1.error-message {
     color: red;
     font-weight: bolder;
 }

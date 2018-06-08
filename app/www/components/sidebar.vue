@@ -7,15 +7,15 @@
             </md-button>
         </md-toolbar>
         <md-list>
-            <md-list-item href="#/welcome">
+            <md-list-item @click="welcomePage()">
                 <md-icon>dashboard</md-icon>
                 <span class="md-list-item-text">Dashboard</span>
             </md-list-item>
-            <md-list-item href="#/products?isBuyer=true">
+            <md-list-item @click="productsPage(true)">
                 <md-icon>shopping_basket</md-icon>
                 <span class="md-list-item-text">Produkte kaufen</span>
             </md-list-item>
-            <md-list-item href="#/products?isBuyer=false">
+            <md-list-item @click="productsPage(false)">
                 <md-icon>store</md-icon>
                 <span class="md-list-item-text">Produkte verkaufen</span>
             </md-list-item>
@@ -44,6 +44,12 @@
             return {}
         },
         methods: {
+            welcomePage: function() {
+                this.$router.push('/welcome');
+            },
+            productsPage: function(isBuyer) {
+                this.$router.push({path: 'products', query: {isBuyer: isBuyer}});
+            },
             logout: function () {
                 var self = this;
                 self.$http.post(RESTURL + '/logout').then(function (response) {
