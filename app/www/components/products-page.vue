@@ -8,25 +8,28 @@
         </md-toolbar>
         <Sidebar v-bind:showSidebar="showSidebar" v-on:hide-sidebar="showSidebar=false"></Sidebar>
         <md-content>
-            <md-empty-state v-if="!isBuyer" md-icon="store" md-label="Noch nichts verkauft" md-description="Ein Produkt selbst anzubieten ist einfach. Probiere es doch mal direkt aus!">
+            <md-empty-state v-if="!isBuyer && !items.length" md-icon="store" md-label="Noch nichts verkauft" md-description="Ein Produkt selbst anzubieten ist einfach. Probiere es doch mal direkt aus!">
                 <md-button @click="addItem" class="md-primary md-raised">Produkt anbieten</md-button>
             </md-empty-state>
-            <div v-if="isBuyer">
+            <div>
                 <div v-if="items.length">
                     <md-list class="md-double-line">
-                        <md-list-item v-for="(item, index) in items" :key="index">
+                        <md-list-item v-for="(item, index) in items" :key="index" class="product-list">
+                            <md-avatar>
+                                <img src="https://placeimg.com/40/40/people/1" alt="People">
+                            </md-avatar>
                             <div class="md-list-item-text">
-                                <span>{{ item.header}}</span>
+                                <span>{{ item.title}}</span>
                                 <span>{{ item.description}}</span>
-                                <span>{{ item.price}} €</span>
                             </div>
-                            <md-button>
-                                <md-icon>shopping_cart</md-icon>
+                            <span>{{ item.price}} €</span>
+                            <md-button class="md-icon-button md-list-action" v-if="isBuyer">
+                                <md-icon class="md-primary">shopping_cart</md-icon>
                             </md-button>
                         </md-list-item>
                         <md-list>
                 </div>
-                <md-empty-state v-if="!items.length" md-icon="shopping_basket" md-label="Noch nichts los" md-description="Keine passenden Produkte gefunden. Probiere es doch später einmal erneut!">
+                <md-empty-state v-if="isBuyer && !items.length" md-icon="shopping_basket" md-label="Noch nichts los" md-description="Keine passenden Produkte gefunden. Probiere es doch später einmal erneut!">
                 </md-empty-state>
             </div>
             <md-speed-dial :class="topPosition" md-direction="bottom" class="md-bottom-right" v-if="!isBuyer">
@@ -66,10 +69,11 @@
             getItems: function () {
                 var self = this;
 
-                self.$http.get(RESTURL + ((self.isBuyer)? '/articles' : '/soldarticles'), {}).then(function(response) {
+                self.$http.get(RESTURL + ((self.isBuyer) ? '/articles' : '/soldarticles'), {}).then(function (
+                    response) {
                     self.loading = false;
                     self.items = response.body.articles;
-                }, function(error) {
+                }, function (error) {
                     console.error(error);
                     self.loading = false;
                 });
