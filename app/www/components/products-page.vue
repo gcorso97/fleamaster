@@ -5,12 +5,15 @@
                 <md-icon>menu</md-icon>
             </md-button>
             <span class="md-title">Produkte</span>
+            <div class="md-toolbar-section-end">
+                <md-button class="md-primary" v-if="!buyhistory && isBuyer" @click="buyhistory=true; getItems()">Zur Kaufhistorie</md-button>
+                <md-button class="md-primary" v-if="buyhistory && isBuyer" @click="buyhistory=false; getItems()">Zur Artikelliste</md-button>
+            </div>
         </md-toolbar>
         <Sidebar v-bind:showSidebar="showSidebar" v-on:hide-sidebar="showSidebar=false"></Sidebar>
         <md-content>
-            <md-dialog-confirm :md-active.sync="confirmationDialog" md-title="Produkt kaufen?" 
-            md-content="Du bist gerade dabei, das Produkt zu kaufen. Bitte <b>bestätige</b> den Kauf kurz."
-            md-confirm-text="Produkt kaufen" md-cancel-text="Abbrechen" @md-confirm="onConfirm" @md-cancel="onCancel" />
+            <md-dialog-confirm :md-active.sync="confirmationDialog" md-title="Produkt kaufen?" md-content="Du bist gerade dabei, das Produkt zu kaufen. Bitte <b>bestätige</b> den Kauf kurz."
+                md-confirm-text="Produkt kaufen" md-cancel-text="Abbrechen" @md-confirm="onConfirm" @md-cancel="onCancel" />
             <md-empty-state v-if="!isBuyer && !items.length" md-icon="store" md-label="Noch nichts verkauft" md-description="Ein Produkt selbst anzubieten ist einfach. Probiere es doch mal direkt aus!">
                 <md-button @click="addItem" class="md-primary md-raised">Produkt anbieten</md-button>
             </md-empty-state>
@@ -26,7 +29,7 @@
                                 <span>{{ item.description}}</span>
                             </div>
                             <span>{{ item.price}} €</span>
-                            <md-button class="md-icon-button md-list-action" v-if="isBuyer" @click="confirmationDialog=true; selectedProduct=item.id">
+                            <md-button class="md-icon-button md-list-action" v-if="isBuyer && !buyhistory" @click="confirmationDialog=true; selectedProduct=item.id">
                                 <md-icon class="md-primary">shopping_cart</md-icon>
                             </md-button>
                         </md-list-item>
@@ -61,24 +64,27 @@
                 isBuyer: false,
                 items: [],
                 confirmationDialog: false,
-                selectedProduct: false
+                selectedProduct: false,
+                buyhistory: false
             }
         },
         components: {
             Sidebar: Sidebar
         },
         methods: {
-            onCancel: function() {
+            onCancel: function () {
                 this.selectedProduct = false;
             },
-            onConfirm: function() {
+            onConfirm: function () {
                 var self = this;
 
                 self.loading = true;
-                self.$http.post(RESTURL + '/buy', {id: self.selectedProduct}).then(function() {
+                self.$http.post(RESTURL + '/buy', {
+                    id: self.selectedProduct
+                }).then(function () {
                     self.loading = false;
                     self.getItems();
-                }, function(error) {
+                }, function (error) {
                     console.log(error);
                     self.loading = false;
                 });
@@ -90,8 +96,7 @@
                 var self = this;
 
                 self.loading = true;
-                self.$http.get(RESTURL + ((self.isBuyer) ? '/articles' : '/soldarticles'), {}).then(function (
-                    response) {
+                self.$http.get(RESTURL + ((self.isBuyer) ? ((self.buyhistory)? '/boughtarticles' : '/articles') : '/soldarticles'), {}).then(function (response) {
                     self.loading = false;
                     self.items = response.body.articles;
                 }, function (error) {
