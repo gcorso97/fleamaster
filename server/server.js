@@ -43,6 +43,7 @@ app.use((req, res, next) => {
 app.post('/register', account.register);
 app.post('/login', account.login);
 app.post('/logout', account.logout);
+app.get('/user', account.getUser);
 app.get('/categories', articles.getCategories);
 app.post('/article', articles.addArticle);
 app.get('/articles', articles.getArticles);

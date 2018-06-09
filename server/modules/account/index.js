@@ -68,6 +68,16 @@ let login = (mail, password, callback) => {
 };
 
 /**
+ * Retrieves user from database for given user id
+ * @param {String} user the user id
+ * @param {Function} callback callback function
+ */
+let getUser = (user, callback) => {
+    // search for user
+    db.query('SELECT id, firstname, lastname, city, zipcode, street, mail FROM user WHERE id=?', [user], (err, queryRes) => callback(err, queryRes));
+};
+
+/**
  * Account module
  */
 module.exports = {
@@ -112,5 +122,20 @@ module.exports = {
             if(!err) res.json({loggedOut: true});
             else res.status(409).json({error: {code: 409, message: err}});
         });
+    },
+    /**
+     * getUser request handler
+     * @param {Object} req the server request
+     * @param {Object} res the server response
+     */
+    getUser: (req, res) => {
+        // check if authenticated
+        if(req.session.authenticated) {
+            // get current user or given user if applied
+            getUser(req.query.id || req.session.authenticated, (err, userRes) => {
+                if(!err && userRes) res.json({user: userRes});
+                else res.status(409).json({error: {code: 409, message: err}});
+            });
+        } else res.status(401).json({error: {code: 401, message: srv_error.UNAUTHORIZED}});
     }
 };
