@@ -8,8 +8,8 @@
         </md-toolbar>
         <Sidebar v-bind:showSidebar="showSidebar" v-on:hide-sidebar="showSidebar=false"></Sidebar>
         <md-content>
-            <md-empty-state v-if="!isBuyer" md-icon="store" md-label="Noch nichts verkauft" md-description="Ein Produkt selbst anzubieten ist einfach. Probiere es doch mal direkt aus!"
-                md-button @click="addItem" class="md-primary md-raised">Produkt anbieten
+            <md-empty-state v-if="!isBuyer" md-icon="store" md-label="Noch nichts verkauft" md-description="Ein Produkt selbst anzubieten ist einfach. Probiere es doch mal direkt aus!">
+                <md-button @click="addItem" class="md-primary md-raised">Produkt anbieten</md-button>
             </md-empty-state>
             <div v-if="isBuyer">
                 <div v-if="items.length">
@@ -63,11 +63,10 @@
             addItem: function () {
                 this.$router.push('addItem');
             },
-            //Function which gets mock data from a json file to test the view
             getItems: function () {
                 var self = this;
 
-                self.$http.get(RESTURL + '/articles', {}).then(function(response) {
+                self.$http.get(RESTURL + ((self.isBuyer)? '/articles' : '/soldarticles'), {}).then(function(response) {
                     self.loading = false;
                     self.items = response.body.articles;
                 }, function(error) {
