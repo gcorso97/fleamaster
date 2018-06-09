@@ -8,6 +8,9 @@
         </md-toolbar>
         <Sidebar v-bind:showSidebar="showSidebar" v-on:hide-sidebar="showSidebar=false"></Sidebar>
         <md-content>
+            <md-dialog-confirm :md-active.sync="confirmationDialog" md-title="Produkt kaufen?" 
+            md-content="Du bist gerade dabei, das Produkt zu kaufen. Bitte <b>bestätige</b> den Kauf kurz."
+            md-confirm-text="Produkt kaufen" md-cancel-text="Abbrechen" @md-confirm="onConfirm" @md-cancel="onCancel" />
             <md-empty-state v-if="!isBuyer && !items.length" md-icon="store" md-label="Noch nichts verkauft" md-description="Ein Produkt selbst anzubieten ist einfach. Probiere es doch mal direkt aus!">
                 <md-button @click="addItem" class="md-primary md-raised">Produkt anbieten</md-button>
             </md-empty-state>
@@ -23,7 +26,7 @@
                                 <span>{{ item.description}}</span>
                             </div>
                             <span>{{ item.price}} €</span>
-                            <md-button class="md-icon-button md-list-action" v-if="isBuyer">
+                            <md-button class="md-icon-button md-list-action" v-if="isBuyer" @click="confirmationDialog=true; selectedProduct=item.id">
                                 <md-icon class="md-primary">shopping_cart</md-icon>
                             </md-button>
                         </md-list-item>
@@ -56,19 +59,37 @@
                 loading: true,
                 showSidebar: false,
                 isBuyer: false,
-                items: []
+                items: [],
+                confirmationDialog: false,
+                selectedProduct: false
             }
         },
         components: {
             Sidebar: Sidebar
         },
         methods: {
+            onCancel: function() {
+                this.selectedProduct = false;
+            },
+            onConfirm: function() {
+                var self = this;
+
+                self.loading = true;
+                self.$http.post(RESTURL + '/buy', {id: self.selectedProduct}).then(function() {
+                    self.loading = false;
+                    self.getItems();
+                }, function(error) {
+                    console.log(error);
+                    self.loading = false;
+                });
+            },
             addItem: function () {
                 this.$router.push('addItem');
             },
             getItems: function () {
                 var self = this;
 
+                self.loading = true;
                 self.$http.get(RESTURL + ((self.isBuyer) ? '/articles' : '/soldarticles'), {}).then(function (
                     response) {
                     self.loading = false;
