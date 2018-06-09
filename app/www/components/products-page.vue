@@ -12,7 +12,7 @@
                 md-button @click="addItem" class="md-primary md-raised">Produkt anbieten
             </md-empty-state>
             <div v-if="isBuyer">
-                <div v-if="hasItems">
+                <div v-if="items.length">
                     <md-list class="md-double-line">
                         <md-list-item v-for="(item, index) in items" :key="index">
                             <div class="md-list-item-text">
@@ -26,9 +26,8 @@
                         </md-list-item>
                         <md-list>
                 </div>
-                <div v-if="!hasItems">
-                    <p>Hier ist nichts :(</p>
-                </div>
+                <md-empty-state v-if="!items.length" md-icon="shopping_basket" md-label="Noch nichts los" md-description="Keine passenden Produkte gefunden. Probiere es doch später einmal erneut!">
+                </md-empty-state>
             </div>
             <md-speed-dial :class="topPosition" md-direction="bottom" class="md-bottom-right" v-if="!isBuyer">
                 <md-speed-dial-target @click="addItem" class="md-accent">
@@ -54,7 +53,6 @@
                 loading: true,
                 showSidebar: false,
                 isBuyer: false,
-                hasItems: false,
                 items: []
             }
         },
@@ -68,28 +66,22 @@
             //Function which gets mock data from a json file to test the view
             getItems: function () {
                 var self = this;
-                var itemRequest = new XMLHttpRequest();
 
-                itemRequest.onreadystatechange = function () {
-                    if (itemRequest.readyState === 4 && itemRequest.status === 200) {
-                        var unParsed = itemRequest.responseText;
-                        self.items = JSON.parse(unParsed);
-                        self.hasItems = (self.items.length != 0) ? true : false;
-                    }
-                };
-                itemRequest.open("GET", "js/items.json", true);
-                itemRequest.send();
+                self.$http.get(RESTURL + '/articles', {}).then(function(response) {
+                    self.loading = false;
+                    self.items = response.body.articles;
+                }, function(error) {
+                    console.error(error);
+                    self.loading = false;
+                });
             }
         },
-        created: function() {
+        created: function () {
             var self = this;
 
             self.isBuyer = ((self.$route.query.isBuyer === 'true' || self.$route.query.isBuyer === true) ? true :
                 false);
             self.getItems();
-            setTimeout(function () {
-                self.loading = false;
-            }, 2000);
         }
     }
 </script>
