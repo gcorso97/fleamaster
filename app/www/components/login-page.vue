@@ -17,7 +17,7 @@
                     <md-input v-model="password" type="password" v-on:input="validateInput"></md-input>
                 </md-field>
             </div>
-            <div>
+            <div class="actions md-layout md-alignment-center-space-between">
                 <router-link to="/register">Account erstellen</router-link>
             </div>
             <div class="actions md-layout md-alignment-center-space-between">

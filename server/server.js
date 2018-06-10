@@ -6,7 +6,8 @@ var express = require('express'),
     session = require('express-session'),
     bodyParser = require('body-parser'),
     account = require('./modules/account'),
-    articles = require('./modules/articles');
+    articles = require('./modules/articles'),
+    dashboard = require('./modules/dashboard');
 
 // session handling
 app.use(session({
@@ -52,6 +53,7 @@ app.get('/boughtarticles', articles.getBoughtArticles);
 app.get('/article', articles.getArticle);
 app.delete('/article', articles.deleteArticle);
 app.post('/buy', articles.buyArticle);
+app.get('/dashboard', dashboard.getDashboardInfo);
 
 // requested route not found
 app.use((req, res) => {
