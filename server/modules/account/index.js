@@ -78,6 +78,32 @@ let getUser = (user, callback) => {
 };
 
 /**
+ * Updates the current user within database with the new data
+ * @param {String} user the user id
+ * @param {Object} userObj the user object containing the new data to apply
+ * @param {Function} callback callback function
+ */
+let updateUser = (user, userObj, callback) => {
+    // update the user
+    db.query('UPDATE user SET firstname=?, lastname=?, city=?, zipcode=?, street=?, mail=? WHERE id=?', [
+        userObj.firstname, userObj.lastname, userObj.city, userObj.zipcode, userObj.street, userObj.mail, user
+    ], (err, queryRes) => callback(err, queryRes));
+};
+
+/**
+ * Changes the password for the given user
+ * @param {String} user the user id
+ * @param {String} password the new password to set
+ * @param {Function} callback callback function
+ */
+let changePassword = (user, password, callback) => {
+    try {
+        // generate new hash for the given new password and update it within the database
+        db.query('UPDATE user SET pwd_hash=? WHERE id=?', [passwordHash.generate(password, {algorithm: 'sha512'}), user], (err, queryRes) => callback(err, queryRes));
+    } catch(e) {callback(srv_error.HASH_FAILED, null);}
+};
+
+/**
  * Account module
  */
 module.exports = {
@@ -136,6 +162,50 @@ module.exports = {
                 if(!err && userRes) res.json({user: userRes});
                 else res.status(409).json({error: {code: 409, message: err}});
             });
+        } else res.status(401).json({error: {code: 401, message: srv_error.UNAUTHORIZED}});
+    },
+    /**
+     * updateUser request handler
+     * @param {Object} req the server request
+     * @param {Object} res the server response
+     */
+    updateUser: (req, res) => {
+        let processUpdate = () => {
+            // update the current user data
+            updateUser(req.session.authenticated, req.body.user, (err, updateRes) => {
+                if(!err && updateRes) {
+                    // change the password if a valid password has been applied
+                    if(isValidPassword(req.body.user.password)) {
+                        // change password
+                        changePassword(req.session.authenticated, req.body.user.password, (err, changeRes) => {
+                            if(!err && changeRes) res.json({updated: true});
+                            else res.status(409).json({error: {code: 409, message: err}});
+                        });
+                    } else res.json({updated: true});
+                } else res.status(409).json({error: {code: 409, message: err}});
+            });
+        };
+
+        // check if authenticated
+        if(req.session.authenticated) {
+            // validate params
+            if(req.body.user && isValidMail(req.body.user.mail)) {
+                // get the user to retrieve previous mail
+                getUser(req.session.authenticated, (err, userRes) => {
+                    if(!err && userRes && userRes[0]) {
+                        // check if mail changed - if to, check if the requested mail exists within system
+                        if(userRes[0].mail !== req.body.user.mail) {
+                            // check if mail exists
+                            db.query('SELECT mail FROM user WHERE mail=?', [req.body.user.mail], (err, mailRes) => {
+                                if(!err && mailRes) {
+                                    if(mailRes.length) return res.status(409).json({error: {code: 409, message: srv_error.ALREADY_REGISTERED}});
+                                    processUpdate();
+                                } else res.status(409).json({error: {code: 409, message: err}});
+                            });
+                        } else processUpdate();
+                    } else res.status(409).json({error: {code: 409, message: err}});
+                });
+            } else res.status(422).json({error: {code: 422, message: srv_error.INVALID_PARAM}});
         } else res.status(401).json({error: {code: 401, message: srv_error.UNAUTHORIZED}});
     }
 };
