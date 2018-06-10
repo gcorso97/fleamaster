@@ -55,7 +55,6 @@
                 self.$http.post(RESTURL + '/logout').then(function (response) {
                     // success
                     self.loading = true;
-                    console.log(response);
                     self.$router.push('/');
                 }, function (response) {
                     // error

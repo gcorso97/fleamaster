@@ -75,7 +75,6 @@ export default {
             self.$http.post(RESTURL + '/login', {mail: self.mail, password: self.password}).then(function(response) {
                 // success
                 self.loading = false;
-                console.log(response);
                 self.$router.push('welcome');
             }, function(response) {
                 // error

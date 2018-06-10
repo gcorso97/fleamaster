@@ -12,7 +12,7 @@
             <div class="half-cards">
                 <md-card class="half-card left">
                     <md-card-header>
-                        <div class="md-title">7</div>
+                        <div class="md-title">{{dashboardInfo.bought}}</div>
                         <div class="md-subhead">Produkte gekauft</div>
                     </md-card-header>
                     <md-card-content>
@@ -24,7 +24,7 @@
                 </md-card>
                 <md-card class="half-card right">
                     <md-card-header>
-                        <div class="md-title">4</div>
+                        <div class="md-title">{{dashboardInfo.sold}}</div>
                         <div class="md-subhead">Produkte verkauft</div>
                     </md-card-header>
                     <md-card-content>
@@ -35,20 +35,26 @@
                     </md-card-actions>
                 </md-card>
             </div>
-            <p class="md-headline recommendation-title">Empfehlung des Tages</p>
-            <md-card md-with-hover>
-                <md-ripple>
-                    <md-card-header>
-                        <md-card-header-text>
-                            <div class="md-title">FleaMaster Demo</div>
-                            <div class="md-subhead">Ein cooles Produkt</div>
-                        </md-card-header-text>
-                        <md-card-media md-big>
-                            <img src="./../img/logo.png" alt="Produkt">
-                        </md-card-media>
-                    </md-card-header>
-                </md-ripple>
-            </md-card>
+            <div v-if="dashboardInfo.article && dashboardInfo.article.id">
+                <p class="md-headline recommendation-title">Empfehlung des Tages</p>
+                <md-card md-with-hover>
+                    <md-ripple>
+                        <md-card-header>
+                            <md-card-header-text>
+                                <div class="md-title">{{dashboardInfo.article.title}}</div>
+                                <div class="md-subhead">{{dashboardInfo.article.description}}</div>
+                                <div class="md-subhead">{{dashboardInfo.article.price}}€</div>
+                            </md-card-header-text>
+                            <md-card-media md-big>
+                                <img src="./../img/logo.png" alt="Produkt">
+                            </md-card-media>
+                        </md-card-header>
+                    </md-ripple>
+                </md-card>
+            </div>
+            <div class="loading-overlay" v-if="loading">
+                <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
+            </div>
         </md-content>
         <transition name="fade">
             <router-view></router-view>
@@ -62,7 +68,9 @@
     export default {
         data: function () {
             return {
-                showSidebar: false
+                loading: true,
+                showSidebar: false,
+                dashboardInfo: {}
             }
         },
         components: {
@@ -77,6 +85,17 @@
                     }
                 });
             }
+        },
+        created: function () {
+            var self = this;
+
+            self.$http.get(RESTURL + '/dashboard', {}).then(function (response) {
+                self.loading = false;
+                self.dashboardInfo = response.body;
+            }, function (error) {
+                self.loading = false;
+                console.error(error);
+            });
         }
     }
 </script>
