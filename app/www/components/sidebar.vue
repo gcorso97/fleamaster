@@ -6,6 +6,7 @@
                 <md-icon>chevron_left</md-icon>
             </md-button>
         </md-toolbar>
+        <!-- with a click on a dashboard nav-link which is already opened results in error -->
         <md-list>
             <md-list-item @click="welcomePage()">
                 <md-icon>dashboard</md-icon>
@@ -19,7 +20,7 @@
                 <md-icon>store</md-icon>
                 <span class="md-list-item-text">Produkte verkaufen</span>
             </md-list-item>
-            <md-list-item>
+            <md-list-item @click="profile()">
                 <md-icon>person</md-icon>
                 <span class="md-list-item-text">Profil</span>
             </md-list-item>
@@ -46,6 +47,9 @@
         methods: {
             welcomePage: function() {
                 this.$router.push('/welcome');
+            },
+            profile: function() {
+                this.$router.push('/userProfile');
             },
             productsPage: function(isBuyer) {
                 this.$router.push({path: 'products', query: {isBuyer: isBuyer}});

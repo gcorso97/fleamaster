@@ -1,5 +1,8 @@
 <template>
     <div id="registrationPage" class="page-container md-layout-column">
+        <md-toolbar class="md-primary">
+            <span class="md-title">Registrierung</span>
+        </md-toolbar>
         <md-content class="md-elevation-3">
             <form @submit.prevent="register">
                 <div id="logoImage" class="centered"></div>
@@ -85,7 +88,7 @@
                     return false;
                 }
             },
-            navigateBack: function (password) {
+            navigateBack: function () {
                 this.$router.push('welcome');
             },
             register: function () {

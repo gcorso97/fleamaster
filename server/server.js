@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({extended: true}));   // url-encoded body
 
 // Cross-Origin-Resource-Sharing (CORS)
 app.use(cors({
-    credentials: true, 
+    credentials: true,
     origin: (origin, callback) => {
         if(!origin || origin === 'null') origin = '*';
         callback(null, origin);
@@ -44,6 +44,7 @@ app.post('/register', account.register);
 app.post('/login', account.login);
 app.post('/logout', account.logout);
 app.get('/user', account.getUser);
+app.put('/updateUser', account.updateUser);
 app.get('/categories', articles.getCategories);
 app.post('/article', articles.addArticle);
 app.get('/articles', articles.getArticles);

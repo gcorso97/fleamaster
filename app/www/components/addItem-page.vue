@@ -27,6 +27,7 @@
                     </md-field>
                     <md-field>
                         <md-input v-model="item.price" id="price" type="number" min=1 max=9999 placeholder="Verkaufspreis" required/>
+                        <span class="md-suffix">€</span>
                     </md-field>
                 </md-card-content>
                 <md-card-actions>

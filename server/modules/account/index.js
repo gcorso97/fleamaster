@@ -38,7 +38,7 @@ let register = (userObj, callback) => {
                 if(queryRes.length) callback(srv_error.ALREADY_REGISTERED, null);   // user already registered
                 else {
                     // register user
-                    db.query('INSERT INTO user (firstname, lastname, city, zipcode, street, mail, pwd_hash) ' + 
+                    db.query('INSERT INTO user (firstname, lastname, city, zipcode, street, mail, pwd_hash) ' +
                     'VALUES (?, ?, ?, ?, ?, ?, ?)', [userObj.firstname, userObj.lastname, userObj.city, userObj.zipcode, userObj.street, userObj.mail, generatedPW], (err, queryRes) => {
                         callback(err, ((!err && queryRes)? queryRes.insertId : false));
                     });
@@ -75,6 +75,18 @@ let login = (mail, password, callback) => {
 let getUser = (user, callback) => {
     // search for user
     db.query('SELECT id, firstname, lastname, city, zipcode, street, mail FROM user WHERE id=?', [user], (err, queryRes) => callback(err, queryRes));
+};
+
+/**
+ * Updates user profile from database with given user information
+ * @param {String} user the user
+ * @param {Function} callback callback function
+ */
+let updateUser = (user, callback) => {
+    //generate password(hash value)
+    var generatedPW = passwordHash.generate(user.password, {algorithm: 'sha512'});
+    // update user information
+    db.query('UPDATE user SET firstname=?, lastname=?, city=?, zipcode=?, street=?, mail=?, pwd_hash=? WHERE id=?', [user.firstname, user.lastname, user.city, user.zipcode, user.street, user.mail, generatedPW, user.id], (err, queryRes) => callback(err, queryRes));
 };
 
 /**
@@ -137,5 +149,20 @@ module.exports = {
                 else res.status(409).json({error: {code: 409, message: err}});
             });
         } else res.status(401).json({error: {code: 401, message: srv_error.UNAUTHORIZED}});
+    },
+    /**
+     * updateUser request handler
+     * @param {Object} req the server request
+     * @param {Object} res the server response
+     */
+    updateUser: (req, res) => {
+        console.log(req.body.user);
+        if(req.body.user){
+            // get current user or given user if applied
+            updateUser(req.body.user, (err, callback) => {
+                if(!err) res.json(callback);
+                else res.status(409).json({error: {code: 409, message: err}});
+            });
+        } else res.status(422).json({error: {code: 422, message: srv_error.INVALID_PARAM}});
     }
 };

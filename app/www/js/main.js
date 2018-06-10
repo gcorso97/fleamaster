@@ -7,6 +7,7 @@ import ProductsPage from './../components/products-page.vue';
 import AddItemPage from './../components/addItem-page.vue';
 import PasswordForgot from './../components/password-forgot-page.vue';
 import Sidebar from './../components/sidebar.vue';
+import UserProfile from './../components/userProfile-page.vue';
 
 Vue.use(VueMaterial.default);
 Vue.use(VueResource);
@@ -24,6 +25,7 @@ var router = new VueRouter({
         {path: '/addItem', component: AddItemPage},
         {path: '/passwordForgot', component: PasswordForgot},
         {path: '/products', component: ProductsPage},
+        {path: '/userProfile', component: UserProfile}
 
     ]
 });
@@ -39,7 +41,9 @@ var vm = new Vue({
         'welcome-page': WelcomePage,
         'password-forgot-page': PasswordForgot,
         'products-page': ProductsPage,
-        'sidebar': Sidebar
+        'sidebar': Sidebar,
+        'userProfile': UserProfile
+
     },
     router: router,
     render: function(h) {
