@@ -135,7 +135,7 @@ module.exports = {
                 if(!err && userId) res.json({authenticated: req.session.authenticated = userId});
                 else res.status(409).json({error: {code: 409, message: err}});
             });
-        } else res.status(409).json({error: {code: 422, message: srv_error.INVALID_PARAM}});
+        } else res.status(422).json({error: {code: 422, message: srv_error.INVALID_PARAM}});
     },
     /**
      * Logout request handler
