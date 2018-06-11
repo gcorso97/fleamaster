@@ -28,6 +28,10 @@
                     <md-field>
                         <md-input v-model="item.price" id="price" type="number" min=1 max=9999 placeholder="Verkaufspreis" required/>
                     </md-field>
+                    <md-field>
+                        <label>Produktbild</label>
+                        <md-file accept="image/*" @md-change="uploadFile($event)"/>
+                    </md-field>
                 </md-card-content>
                 <md-card-actions>
                     <md-button class="actions md-raised md-primary" @click="addItem">Anbieten</md-button>
@@ -50,7 +54,8 @@
                     title: '',
                     category: '',
                     description: '',
-                    price: ''
+                    price: '',
+                    file: ''
                 },
                 showSidebar: false,
                 categories: [],
@@ -61,6 +66,19 @@
             Sidebar: Sidebar
         },
         methods: {
+            uploadFile: function(fileList) {
+                var self = this;
+
+                if(typeof window.FileReader !== 'undefined' && fileList && fileList[0]) {
+                    var reader = new FileReader();
+
+                    reader.onloadend = function() {
+                        self.item.file = reader.result;
+                    };
+
+                    reader.readAsDataURL(fileList[0]);
+                }
+            },
             /**
              * Pass item object to server
              */
@@ -71,21 +89,26 @@
                     article: self.item
                 }).then(function (response) {
                     // go back to products sell page
-                    self.$router.push({path: 'products', query: {isBuyer: false}});
+                    self.$router.push({
+                        path: 'products',
+                        query: {
+                            isBuyer: false
+                        }
+                    });
                 }, function (error) {
                     self.articleError = true;
                 });
             }
         },
-        created: function() {
-           var self = this;
+        created: function () {
+            var self = this;
 
-           self.$http.get(RESTURL + '/categories', {}).then(function(response) {
-               self.categories = response.body.categories;
-               console.log(self.categories);
-           }, function(error) {
-               console.error(error);
-           });
+            self.$http.get(RESTURL + '/categories', {}).then(function (response) {
+                self.categories = response.body.categories;
+                console.log(self.categories);
+            }, function (error) {
+                console.error(error);
+            });
         }
     };
 </script>

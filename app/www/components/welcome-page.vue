@@ -43,12 +43,17 @@
                             <md-card-header-text>
                                 <div class="md-title">{{dashboardInfo.article.title}}</div>
                                 <div class="md-subhead">{{dashboardInfo.article.description}}</div>
-                                <div class="md-subhead">{{dashboardInfo.article.price}}€</div>
                             </md-card-header-text>
-                            <md-card-media md-big>
-                                <img src="./../img/logo.png" alt="Produkt">
+                            <md-card-media>
+                                <img src="https://placeimg.com/40/40/people/1" alt="Produktbild">
                             </md-card-media>
                         </md-card-header>
+                        <md-card-actions>
+                            <span><b>{{dashboardInfo.article.price}}€</b></span>
+                            <md-button>
+                                <md-icon class="md-primary">shopping_cart</md-icon>
+                            </md-button>
+                        </md-card-actions>
                     </md-ripple>
                 </md-card>
             </div>

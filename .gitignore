@@ -9,3 +9,4 @@ server/package-lock.json
 server/srv_config.json
 server/node_modules
 .vscode/
+server/img/*.png

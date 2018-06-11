@@ -38,7 +38,7 @@
                 <md-empty-state v-if="isBuyer && !items.length" md-icon="shopping_basket" md-label="Noch nichts los" md-description="Keine passenden Produkte gefunden. Probiere es doch später einmal erneut!">
                 </md-empty-state>
             </div>
-            <md-speed-dial :class="topPosition" md-direction="bottom" class="md-bottom-right" v-if="!isBuyer">
+            <md-speed-dial :class="topPosition" md-direction="bottom" class="md-bottom-right add-product-speed-dial-btn" v-if="!isBuyer">
                 <md-speed-dial-target @click="addItem" class="md-accent">
                     <md-icon>add</md-icon>
                 </md-speed-dial-target>

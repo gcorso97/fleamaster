@@ -1,5 +1,6 @@
 var express = require('express'),
     app = express(),
+    path = require('path'),
     srv_config = require('./srv_config.json'),
     srv_error = require('./srv_error.json'),
     cors = require('cors'),
@@ -20,7 +21,7 @@ app.use(session({
 }));
 
 // JSON parsing
-app.use(bodyParser.json()); // JSON-encoded body
+app.use(bodyParser.json({limit: '100mb'})); // JSON-encoded body
 app.use(bodyParser.urlencoded({extended: true}));   // url-encoded body
 
 // Cross-Origin-Resource-Sharing (CORS)
@@ -31,6 +32,9 @@ app.use(cors({
         callback(null, origin);
     }
 }));
+
+// image static handling
+app.use(express.static(path.join(__dirname, '/img')));
 
 // default headers
 app.use((req, res, next) => {

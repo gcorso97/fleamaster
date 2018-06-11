@@ -1,4 +1,5 @@
 var srv_error = require('./../../srv_error.json'),
+    fs = require('fs'),
     db = require('./../db');
 
 /**
@@ -21,6 +22,25 @@ let addArticle = (user, articleObj, callback) => {
     db.query('INSERT INTO article (user, title, description, category, price) VALUES (?, ?, ?, ?, ?)', [
         user, articleObj.title, articleObj.description, articleObj.category, articleObj.price
     ], (err, queryRes) => callback(err, queryRes));
+};
+
+/**
+ * Adds picture of given base64 decoded picture and saves it to the server filesystem
+ * @param {String} id the article id which will be used as filename
+ * @param {String} file the base64 string of submitted file from client
+ * @param {Function} callback callback function
+ */
+let addPicture = (id, file, callback) => {
+    if (typeof file === 'string') {
+        var base64Data = file.replace(/^data:image\/png;base64,/, '').replace(/^data:image\/jpeg;base64,/, ''), // extract the data only
+            binaryData;
+
+        base64Data += base64Data.replace('+', ' ');
+        binaryData = new Buffer(base64Data, 'base64').toString('binary'); // convert the base64 back to binary
+
+        // write the picture to disk
+        fs.writeFile('img/' + id + '.png', binaryData, 'binary', (err, fileRes) => callback(err, fileRes));
+    } else callback(srv_error.INVALID_PARAM, null);
 };
 
 /**
@@ -125,8 +145,15 @@ module.exports = {
             if(req.body.article != null && typeof req.body.article.title === 'string' && req.body.article.title.length < 256 && 
                 typeof req.body.article.category === 'number' && parseFloat(req.body.article.price)) {
                 addArticle(req.session.authenticated, req.body.article, (err, articleRes) => {
-                    if(!err && articleRes) res.json({created: true});
-                    else res.status(409).json({error: {code: 409, message: err}});
+                    if(!err && articleRes) {
+                        // check if a picture has been attached
+                        if(req.body.article.file) {
+                            addPicture(articleRes.insertId, req.body.article.file, (err, picRes) => {
+                                if(!err) res.json({created: true});
+                                else res.status(409).json({error: {code: 409, message: err}});
+                            });
+                        } else res.json({created: true});
+                    } else res.status(409).json({error: {code: 409, message: err}});
                 });
             } else res.status(409).json({error: {code: 409, message: srv_error.INVALID_PARAM}});
         } else res.status(401).json({error: {code: 401, message: srv_error.UNAUTHORIZED}});
