@@ -4,6 +4,7 @@ import LoginPage from './../components/login-page.vue';
 import RegistrationPage from './../components/registration-page.vue';
 import WelcomePage from './../components/welcome-page.vue';
 import ProductsPage from './../components/products-page.vue';
+import ProductPage from './../components/product-page.vue';
 import AddItemPage from './../components/addItem-page.vue';
 import PasswordForgot from './../components/password-forgot-page.vue';
 import Sidebar from './../components/sidebar.vue';
@@ -24,7 +25,7 @@ var router = new VueRouter({
         {path: '/addItem', component: AddItemPage},
         {path: '/passwordForgot', component: PasswordForgot},
         {path: '/products', component: ProductsPage},
-
+        {path: '/product', component: ProductPage}
     ]
 });
 
@@ -39,6 +40,7 @@ var vm = new Vue({
         'welcome-page': WelcomePage,
         'password-forgot-page': PasswordForgot,
         'products-page': ProductsPage,
+        'product-page': ProductPage,
         'sidebar': Sidebar
     },
     router: router,
