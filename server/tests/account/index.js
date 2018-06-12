@@ -3,10 +3,21 @@ var chai = require('chai'),
     srv_config = require('./../../srv_config.json'),
     srv_error = require('./../../srv_error.json'),
     RESTURL = 'http://127.0.0.1:' + srv_config.PORT + '/',
+    db = require('./../../modules/db');
     should = chai.should();
 
 // init chai with chai-http support
 chai.use(chaiHttp);
+
+/**
+ * Deletes the test user created from this test
+ */
+before('delete the test user', (done) => {
+    db.query('DELETE FROM user WHERE mail=?', ['mail@test.de'], (err, queryRes) => {
+        should.not.exist(err);
+        done();
+    });
+});
 
 /**
  * Test for register request
