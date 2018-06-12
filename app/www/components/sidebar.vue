@@ -49,6 +49,7 @@
             },
             productsPage: function(isBuyer) {
                 this.$router.push({path: 'products', query: {isBuyer: isBuyer}});
+                this.$emit('hide-sidebar');
             },
             logout: function () {
                 var self = this;

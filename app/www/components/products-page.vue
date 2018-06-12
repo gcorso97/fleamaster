@@ -71,6 +71,9 @@
         components: {
             Sidebar: Sidebar
         },
+        watch: {
+            '$route.query': 'getItems'
+        },
         methods: {
             onCancel: function () {
                 this.selectedProduct = false;
@@ -96,6 +99,8 @@
                 var self = this;
 
                 self.loading = true;
+                self.isBuyer = ((self.$route.query.isBuyer === 'true' || self.$route.query.isBuyer === true) ? true : false);
+
                 self.$http.get(RESTURL + ((self.isBuyer) ? ((self.buyhistory)? '/boughtarticles' : '/articles') : '/soldarticles'), {}).then(function (response) {
                     self.loading = false;
                     self.items = response.body.articles;
@@ -106,11 +111,7 @@
             }
         },
         created: function () {
-            var self = this;
-
-            self.isBuyer = ((self.$route.query.isBuyer === 'true' || self.$route.query.isBuyer === true) ? true :
-                false);
-            self.getItems();
+            this.getItems();
         }
     }
 </script>
