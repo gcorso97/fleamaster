@@ -5,3 +5,14 @@ li.md-list-item.product-list {
     position: fixed;
     z-index: 2;
 }
+.location-icon-pin {
+    position: absolute;
+    right: 8px;
+    top: 0;
+}
+.location-icon-pin i {
+    font-size: 16px!important;
+}
+.location-icon-pin span {
+    font-size: 14px;
+}

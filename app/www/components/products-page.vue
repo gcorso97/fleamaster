@@ -20,13 +20,17 @@
             <div>
                 <div v-if="items.length">
                     <md-list class="md-double-line">
-                        <md-list-item v-for="(item, index) in items" :key="index" class="product-list">
+                        <md-list-item v-for="(item, index) in items" :key="index" class="product-list" @click="openItem(item.id)">
                             <md-avatar>
                                 <img :src="imgURL + '/' + item.id + '.png'" alt="Produktbild" onerror="this.src='img/logo.png'">
                             </md-avatar>
                             <div class="md-list-item-text">
                                 <span>{{ item.title}}</span>
                                 <span>{{ item.description}}</span>
+                            </div>
+                            <div class="md-subhead location-icon-pin">
+                                <md-icon>location_on</md-icon>
+                                <span>0km</span>
                             </div>
                             <span>{{ item.price}} €</span>
                             <md-button class="md-icon-button md-list-action" v-if="isBuyer && !buyhistory" @click="confirmationDialog=true; selectedProduct=item.id">
@@ -59,7 +63,7 @@
     export default {
         data: function () {
             return {
-                loading: true,
+                loading: false,
                 showSidebar: false,
                 isBuyer: false,
                 items: [],
@@ -109,6 +113,9 @@
                     console.error(error);
                     self.loading = false;
                 });
+            },
+            openItem: function(id) {
+                this.$router.push({path: 'product', query: {id: id}});
             }
         },
         created: function () {
