@@ -22,7 +22,7 @@
                     <md-list class="md-double-line">
                         <md-list-item v-for="(item, index) in items" :key="index" class="product-list">
                             <md-avatar>
-                                <img src="https://placeimg.com/40/40/people/1" alt="People">
+                                <img :src="imgURL + '/' + item.id + '.png'" alt="Produktbild" onerror="this.src='img/logo.png'">
                             </md-avatar>
                             <div class="md-list-item-text">
                                 <span>{{ item.title}}</span>
@@ -65,7 +65,8 @@
                 items: [],
                 confirmationDialog: false,
                 selectedProduct: false,
-                buyhistory: false
+                buyhistory: false,
+                imgURL: RESTURL
             }
         },
         components: {

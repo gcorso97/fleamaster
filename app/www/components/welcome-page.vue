@@ -45,7 +45,7 @@
                                 <div class="md-subhead">{{dashboardInfo.article.description}}</div>
                             </md-card-header-text>
                             <md-card-media>
-                                <img src="https://placeimg.com/40/40/people/1" alt="Produktbild">
+                                <img :src="imgURL + '/' + dashboardInfo.article.id + '.png'" alt="Produktbild" onerror="this.src='img/logo.png'">
                             </md-card-media>
                         </md-card-header>
                         <md-card-actions>
@@ -75,7 +75,8 @@
             return {
                 loading: true,
                 showSidebar: false,
-                dashboardInfo: {}
+                dashboardInfo: {},
+                imgURL: RESTURL
             }
         },
         components: {
