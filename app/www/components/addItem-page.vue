@@ -17,8 +17,8 @@
                     </md-field>
                     <md-field>
                         <label>Wähle eine Kategorie</label>
-                        <md-select v-for="(category, index) in categories" :key="index" v-model="item.category" required>
-                            <md-option :value="category.id">{{category.name}}</md-option>
+                        <md-select required v-model="item.category">
+                            <md-option v-for="(category, index) in categories" :key="index" :value="category.id">{{category.name}}</md-option>
                         </md-select>
                     </md-field>
                     <md-field>
@@ -26,7 +26,7 @@
                         <md-textarea type="textarea" v-model="item.description"></md-textarea>
                     </md-field>
                     <md-field>
-                        <md-input v-model="item.price" id="price" type="number" min=1 max=9999 placeholder="Verkaufspreis" required/>
+                        <md-input v-model="item.price" id="price" type="number" min=1 max=9999 placeholder="Verkaufspreis *" required/>
                     </md-field>
                     <md-field>
                         <label>Produktbild</label>
