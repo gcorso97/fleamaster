@@ -7,5 +7,6 @@
     "HASH_FAILED": "There was an error during processing your registration.",
     "ALREADY_REGISTERED": "The user already exists.",
     "DB_QUERY": "Error on database.",
-    "UNAUTHORIZED": "Not allowed to proceed with request. Ensure that you are authenticated."
+    "UNAUTHORIZED": "Not allowed to proceed with request. Ensure that you are authenticated.",
+    "LOCATION_NOT_RESOLVED": "Location could not be resolved from given address."
 }
