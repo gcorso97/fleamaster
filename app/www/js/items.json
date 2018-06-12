@@ -1,0 +1,26 @@
+[
+  {
+    "header": "Ball",
+    "category": "toy",
+    "description": "Blabla hüpf hüpf",
+    "price": "3,0"
+  },
+  {
+    "header": "Rollercoaster",
+    "category": "toy",
+    "description": "Wuuuuuhuuuuiiii",
+    "price": "300000,0"
+  },
+  {
+    "header": "Pogo-Stick",
+    "category": "toy",
+    "description": "od tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. ",
+    "price": "30,0"
+  },
+  {
+    "header": "Brownie Book",
+    "category": "books",
+    "description": "Everyday white gold, yes",
+    "price": "3000,0"
+  }
+]

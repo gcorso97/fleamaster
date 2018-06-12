@@ -1,0 +1,7 @@
+li.md-list-item.product-list {
+    border-bottom: 1px solid #ddd;
+}
+.md-speed-dial.md-bottom-right.add-product-speed-dial-btn {
+    position: fixed;
+    z-index: 2;
+}

@@ -1,51 +1,45 @@
 <template>
     <div id="productsPage" class="page-container md-layout-column">
         <md-toolbar class="md-primary">
-            <md-button class="md-icon-button" @click="showNavigation=true"><md-icon>menu</md-icon></md-button>
-            <span class="md-title" v-if="isBuyer" v-model="isBuyer">Produkte kaufen</span>
-            <span class="md-title" v-if="!isBuyer" v-model="isBuyer">Produkte verkaufen</span>
+            <md-button class="md-icon-button" @click="showSidebar=true">
+                <md-icon>menu</md-icon>
+            </md-button>
+            <span class="md-title">Produkte</span>
+            <div class="md-toolbar-section-end">
+                <md-button class="md-primary" v-if="!buyhistory && isBuyer" @click="buyhistory=true; getItems()">Zur Kaufhistorie</md-button>
+                <md-button class="md-primary" v-if="buyhistory && isBuyer" @click="buyhistory=false; getItems()">Zur Artikelliste</md-button>
+            </div>
         </md-toolbar>
-        <md-drawer :md-active.sync="showNavigation">
-            <md-toolbar class="md-transparent" md-elevation="0">
-                <span class="md-title">FleaMaster</span>
-            </md-toolbar>
-            <md-list>
-                <md-list-item>
-                    <md-icon>dashboard</md-icon>
-                    <span class="md-list-item-text">Dashboard</span>
-                </md-list-item>
-                <md-list-item>
-                    <md-icon>shopping_basket</md-icon>
-                    <span class="md-list-item-text">Produkte kaufen</span>
-                </md-list-item>
-                <md-list-item>
-                    <md-icon>history</md-icon>
-                    <span class="md-list-item-text">Meine Einkäufe</span>
-                </md-list-item>
-                <md-list-item>
-                    <md-icon>store</md-icon>
-                    <span class="md-list-item-text">Produkte verkaufen</span>
-                </md-list-item>
-                <md-list-item>
-                    <md-icon>person</md-icon>
-                    <span class="md-list-item-text">Profil</span>
-                </md-list-item>
-            </md-list>
-        </md-drawer>
+        <Sidebar v-bind:showSidebar="showSidebar" v-on:hide-sidebar="showSidebar=false"></Sidebar>
         <md-content>
-            <md-empty-state v-if="!isBuyer"
-            md-icon="store"
-            md-label="Noch nichts verkauft"
-            md-description="Ein Produkt selbst anzubieten ist einfach. Probiere es doch mal direkt aus!">
-            <md-button @click="addItem" class="md-primary md-raised">Produkt anbieten</md-button>
+            <md-dialog-confirm :md-active.sync="confirmationDialog" md-title="Produkt kaufen?" md-content="Du bist gerade dabei, das Produkt zu kaufen. Bitte <b>bestätige</b> den Kauf kurz."
+                md-confirm-text="Produkt kaufen" md-cancel-text="Abbrechen" @md-confirm="onConfirm" @md-cancel="onCancel" />
+            <md-empty-state v-if="!isBuyer && !items.length" md-icon="store" md-label="Noch nichts verkauft" md-description="Ein Produkt selbst anzubieten ist einfach. Probiere es doch mal direkt aus!">
+                <md-button @click="addItem" class="md-primary md-raised">Produkt anbieten</md-button>
             </md-empty-state>
-            <md-empty-state v-if="isBuyer"
-            md-icon="remove_shopping_cart"
-            md-label="Noch nichts los"
-            md-description="Es gibt noch keine passenden Produkte. Schau später noch einmal vorbei!">
-            </md-empty-state>
-            <md-speed-dial :class="topPosition" md-direction="bottom" class="md-bottom-right">
-                <md-speed-dial-target class="md-accent">
+            <div>
+                <div v-if="items.length">
+                    <md-list class="md-double-line">
+                        <md-list-item v-for="(item, index) in items" :key="index" class="product-list">
+                            <md-avatar>
+                                <img src="https://placeimg.com/40/40/people/1" alt="People">
+                            </md-avatar>
+                            <div class="md-list-item-text">
+                                <span>{{ item.title}}</span>
+                                <span>{{ item.description}}</span>
+                            </div>
+                            <span>{{ item.price}} €</span>
+                            <md-button class="md-icon-button md-list-action" v-if="isBuyer && !buyhistory" @click="confirmationDialog=true; selectedProduct=item.id">
+                                <md-icon class="md-primary">shopping_cart</md-icon>
+                            </md-button>
+                        </md-list-item>
+                        <md-list>
+                </div>
+                <md-empty-state v-if="isBuyer && !items.length" md-icon="shopping_basket" md-label="Noch nichts los" md-description="Keine passenden Produkte gefunden. Probiere es doch später einmal erneut!">
+                </md-empty-state>
+            </div>
+            <md-speed-dial :class="topPosition" md-direction="bottom" class="md-bottom-right add-product-speed-dial-btn" v-if="!isBuyer">
+                <md-speed-dial-target @click="addItem" class="md-accent">
                     <md-icon>add</md-icon>
                 </md-speed-dial-target>
             </md-speed-dial>
@@ -60,26 +54,63 @@
 </template>
 
 <script>
-export default {
-    data: function () {
-        return {
-            loading: true,
-            showNavigation: false,
-            isBuyer: false
+    import Sidebar from './sidebar.vue';
+
+    export default {
+        data: function () {
+            return {
+                loading: true,
+                showSidebar: false,
+                isBuyer: false,
+                items: [],
+                confirmationDialog: false,
+                selectedProduct: false,
+                buyhistory: false
+            }
+        },
+        components: {
+            Sidebar: Sidebar
+        },
+        methods: {
+            onCancel: function () {
+                this.selectedProduct = false;
+            },
+            onConfirm: function () {
+                var self = this;
+
+                self.loading = true;
+                self.$http.post(RESTURL + '/buy', {
+                    id: self.selectedProduct
+                }).then(function () {
+                    self.loading = false;
+                    self.getItems();
+                }, function (error) {
+                    console.log(error);
+                    self.loading = false;
+                });
+            },
+            addItem: function () {
+                this.$router.push('addItem');
+            },
+            getItems: function () {
+                var self = this;
+
+                self.loading = true;
+                self.$http.get(RESTURL + ((self.isBuyer) ? ((self.buyhistory)? '/boughtarticles' : '/articles') : '/soldarticles'), {}).then(function (response) {
+                    self.loading = false;
+                    self.items = response.body.articles;
+                }, function (error) {
+                    console.error(error);
+                    self.loading = false;
+                });
+            }
+        },
+        created: function () {
+            var self = this;
+
+            self.isBuyer = ((self.$route.query.isBuyer === 'true' || self.$route.query.isBuyer === true) ? true :
+                false);
+            self.getItems();
         }
-    },
-    methods: {
-      addItem: function() {
-        this.$router.push('addItem');
-      }
-    },
-    mounted: function() {
-        var self = this;
-        self.isBuyer = ((self.$route.query.isBuyer === 'true' || self.$route.query.isBuyer === true)? true : false);
-        setTimeout(function() {
-            self.loading = false;
-        }, 2000);
-        console.log(self.isBuyer);
     }
-}
 </script>

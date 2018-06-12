@@ -1,12 +1,14 @@
 var express = require('express'),
     app = express(),
+    path = require('path'),
     srv_config = require('./srv_config.json'),
     srv_error = require('./srv_error.json'),
     cors = require('cors'),
     session = require('express-session'),
     bodyParser = require('body-parser'),
-    mysql = require('mysql'),
-    account = require('./modules/account');
+    account = require('./modules/account'),
+    articles = require('./modules/articles'),
+    dashboard = require('./modules/dashboard');
 
 // session handling
 app.use(session({
@@ -19,7 +21,7 @@ app.use(session({
 }));
 
 // JSON parsing
-app.use(bodyParser.json()); // JSON-encoded body
+app.use(bodyParser.json({limit: '100mb'})); // JSON-encoded body
 app.use(bodyParser.urlencoded({extended: true}));   // url-encoded body
 
 // Cross-Origin-Resource-Sharing (CORS)
@@ -30,6 +32,9 @@ app.use(cors({
         callback(null, origin);
     }
 }));
+
+// image static handling
+app.use(express.static(path.join(__dirname, '/img')));
 
 // default headers
 app.use((req, res, next) => {
@@ -42,6 +47,18 @@ app.use((req, res, next) => {
 // request routes
 app.post('/register', account.register);
 app.post('/login', account.login);
+app.post('/logout', account.logout);
+app.get('/user', account.getUser);
+app.put('/user', account.updateUser);
+app.get('/categories', articles.getCategories);
+app.post('/article', articles.addArticle);
+app.get('/articles', articles.getArticles);
+app.get('/soldarticles', articles.getSoldArticles);
+app.get('/boughtarticles', articles.getBoughtArticles);
+app.get('/article', articles.getArticle);
+app.delete('/article', articles.deleteArticle);
+app.post('/buy', articles.buyArticle);
+app.get('/dashboard', dashboard.getDashboardInfo);
 
 // requested route not found
 app.use((req, res) => {

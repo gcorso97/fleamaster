@@ -17,7 +17,7 @@
                     <md-input v-model="password" type="password" v-on:input="validateInput"></md-input>
                 </md-field>
             </div>
-            <div>
+            <div class="actions md-layout md-alignment-center-space-between">
                 <router-link to="/register">Account erstellen</router-link>
             </div>
             <div class="actions md-layout md-alignment-center-space-between">
@@ -46,12 +46,20 @@ export default {
         };
     },
     methods: {
+      /**
+       * Validates Userinput and switches status of the login button
+       */
         validateInput: function () {
             var self = this;
 
             loginBtn.disabled = !(self.validMail(self.mail) && self.validPassword(self.password));
             self.invalidCredentials = false;
         },
+        /**
+         * Description of function
+         * @param  {String} the email which the user entered
+         * @return {Boolean} says if email matches regexp or not
+         */
         validMail: function(mail) {
             var regExpMail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -67,7 +75,6 @@ export default {
             self.$http.post(RESTURL + '/login', {mail: self.mail, password: self.password}).then(function(response) {
                 // success
                 self.loading = false;
-                console.log(response);
                 self.$router.push('welcome');
             }, function(response) {
                 // error
