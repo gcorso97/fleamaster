@@ -219,7 +219,7 @@ module.exports = {
             // validate params
             if(parseInt(req.query.id)) {
                 getArticle(req.query.id, (err, articleRes) => {
-                    if(!err && articleRes) res.json({article: articleRes});
+                    if(!err && articleRes) res.json({article: articleRes[0] || {}});
                     else res.status(409).json({error: {code: 409, message: err}});
                 });
             } else res.status(422).json({error: {code: 422, message: srv_error.INVALID_PARAM}});
