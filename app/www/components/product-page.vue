@@ -18,15 +18,15 @@
                     </md-card-media>
                     <md-card-header>
                         <h2 class="md-title">{{article.title}}</h2>
-                        <div class="md-subhead">
+                        <div class="md-subhead" v-if="distance">
                             <md-icon>location_on</md-icon>
-                            <span>0km</span>
+                            <span>{{distance}}</span>
                         </div>
                     </md-card-header>
                     <md-card-content>{{article.description}}</md-card-content>
                 </md-card-area>
                 <md-card-content>
-                    <h3 class="md-subheading">Standort</h3>
+                    <h3 class="md-subheading" v-if="distance">Standort</h3>
                     <div id="map" ref="map"></div>
                 </md-card-content>
             </md-card>
@@ -48,7 +48,8 @@
                 article: false,
                 isBuyer: false,
                 buyhistory: false,
-                imgURL: RESTURL
+                imgURL: RESTURL,
+                distance: '',
             }
         },
         components: {
@@ -76,28 +77,46 @@
             self.loading = true;
             self.isBuyer = ((self.$route.query.isBuyer === 'true' || self.$route.query.isBuyer === true) ? true : false);
             self.buyhistory = ((self.$route.query.buyhistory === 'true' || self.$route.query.buyhistory === true) ? true : false);
-            setTimeout(function () {
-                var demoLatLng = {
-                    lat: -25.363,
-                    lng: 131.044
-                };
-                var map = new google.maps.Map(self.$refs.map, {
-                    zoom: 12,
-                    center: demoLatLng
-                });
-                var marker = new google.maps.Marker({
-                    position: demoLatLng,
-                    map: map
-                });
-            }, 10);
 
             self.$http.get(RESTURL + '/article', {
                 params: {
                     id: parseInt(self.$route.query.id)
                 }
             }).then(function (response) {
-                self.loading = false;
                 self.article = response.body.article;
+                // get current position
+                navigator.geolocation.getCurrentPosition(function(positionObj) {
+                    // retrieve location info for article
+                    self.$http.get(RESTURL + '/location', {
+                        params: {
+                            article: parseInt(self.$route.query.id),
+                            lat: positionObj.coords.latitude,
+                            lng: positionObj.coords.longitude
+                        }
+                    }).then(function(response) {
+                        self.loading = false;
+                        if(response.body.distance && response.body.lat && response.body.lng) {
+                            // build the map
+                            var map = new google.maps.Map(self.$refs.map, {
+                                zoom: 16,
+                                center: {lat: response.body.lat, lng: response.body.lng}
+                            }),
+                            marker = new google.maps.Marker({
+                                position: {lat: response.body.lat, lng: response.body.lng},
+                                map: map
+                            });
+                            self.distance = response.body.distance;
+                            self.$refs.map.hidden = false;
+                        } else self.$refs.map.hidden = true;
+                    }, function(error) {
+                        self.loading = false;
+                        self.$refs.map.hidden = true;
+                        console.error(error);
+                    });
+                }, function(err) {
+                    self.loading = false;
+                    console.error(err); // TODO show dialog that location could not be resolved (permission denied?) + Cordova Plugin GeoLocation
+                }, {enableHighAccuracy: true});
             }, function (error) {
                 self.loading = false;
                 console.error(error);
