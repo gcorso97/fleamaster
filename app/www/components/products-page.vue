@@ -12,15 +12,13 @@
         </md-toolbar>
         <Sidebar v-bind:showSidebar="showSidebar" v-on:hide-sidebar="showSidebar=false"></Sidebar>
         <md-content>
-            <md-dialog-confirm :md-active.sync="confirmationDialog" md-title="Produkt kaufen?" md-content="Du bist gerade dabei, das Produkt zu kaufen. Bitte <b>bestätige</b> den Kauf kurz."
-                md-confirm-text="Produkt kaufen" md-cancel-text="Abbrechen" @md-confirm="onConfirm" @md-cancel="onCancel" />
             <md-empty-state v-if="!isBuyer && !items.length" md-icon="store" md-label="Noch nichts verkauft" md-description="Ein Produkt selbst anzubieten ist einfach. Probiere es doch mal direkt aus!">
                 <md-button @click="addItem" class="md-primary md-raised">Produkt anbieten</md-button>
             </md-empty-state>
             <div>
                 <div v-if="items.length">
                     <md-list class="md-double-line">
-                        <md-list-item v-for="(item, index) in items" :key="index" class="product-list" @click="openItem(item.id)">
+                        <md-list-item v-for="(item, index) in items" :key="index" class="product-list" @click="openItem(item.id)" v-bind:class="{'sold-item': (item.buyer)}">
                             <md-avatar>
                                 <img :src="imgURL + '/' + item.id + '.png'" alt="Produktbild" onerror="this.src='img/logo.png'">
                             </md-avatar>
@@ -32,10 +30,7 @@
                                 <md-icon>location_on</md-icon>
                                 <span>0km</span>
                             </div>
-                            <span>{{ item.price}} €</span>
-                            <md-button class="md-icon-button md-list-action" v-if="isBuyer && !buyhistory" @click="confirmationDialog=true; selectedProduct=item.id">
-                                <md-icon class="md-primary">shopping_cart</md-icon>
-                            </md-button>
+                            <span><b>{{ item.price}}€</b></span>
                         </md-list-item>
                         <md-list>
                 </div>
@@ -67,8 +62,6 @@
                 showSidebar: false,
                 isBuyer: false,
                 items: [],
-                confirmationDialog: false,
-                selectedProduct: false,
                 buyhistory: false,
                 imgURL: RESTURL
             }
@@ -80,23 +73,6 @@
             '$route.query': 'getItems'
         },
         methods: {
-            onCancel: function () {
-                this.selectedProduct = false;
-            },
-            onConfirm: function () {
-                var self = this;
-
-                self.loading = true;
-                self.$http.post(RESTURL + '/buy', {
-                    id: self.selectedProduct
-                }).then(function () {
-                    self.loading = false;
-                    self.getItems();
-                }, function (error) {
-                    console.log(error);
-                    self.loading = false;
-                });
-            },
             addItem: function () {
                 this.$router.push('addItem');
             },
@@ -115,7 +91,7 @@
                 });
             },
             openItem: function(id) {
-                this.$router.push({path: 'product', query: {id: id}});
+                this.$router.push({path: 'product', query: {id: id, isBuyer: this.isBuyer, buyhistory: this.buyhistory}});
             }
         },
         created: function () {

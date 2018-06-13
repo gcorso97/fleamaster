@@ -5,15 +5,15 @@
                 <md-icon>menu</md-icon>
             </md-button>
             <span class="md-title">Produkt</span>
-            <div class="md-toolbar-section-end" v-if="article">
-                <md-button class="md-primary">Für {{article.price}}€ kaufen</md-button>
+            <div class="md-toolbar-section-end" v-if="article && isBuyer && !buyhistory">
+                <md-button class="md-primary" @click="buy(article.id)">Für {{article.price}}€ kaufen</md-button>
             </div>
         </md-toolbar>
         <Sidebar v-bind:showSidebar="showSidebar" v-on:hide-sidebar="showSidebar=false"></Sidebar>
         <md-content>
             <md-card class="md-card-example" v-if="article">
                 <md-card-area md-inset>
-                    <md-card-media md-ratio="16:9">
+                    <md-card-media md-ratio="16:9" class="product-image">
                         <img :src="imgURL + '/' + article.id + '.png'" alt="Produktbild" onerror="this.src='img/logo.png'">
                     </md-card-media>
                     <md-card-header>
@@ -46,6 +46,8 @@
                 showSidebar: false,
                 loading: false,
                 article: false,
+                isBuyer: false,
+                buyhistory: false,
                 imgURL: RESTURL
             }
         },
@@ -53,12 +55,27 @@
             Sidebar: Sidebar
         },
         methods: {
+            buy: function(id) {
+                var self = this;
 
+                self.loading = true;
+                self.$http.post(RESTURL + '/buy', {
+                    id: id
+                }).then(function () {
+                    self.loading = false;
+                    self.$router.push({path: 'products', query: {isBuyer: true}});
+                }, function (error) {
+                    console.log(error);
+                    self.loading = false;
+                });
+            }
         },
         created: function () {
             var self = this;
 
             self.loading = true;
+            self.isBuyer = ((self.$route.query.isBuyer === 'true' || self.$route.query.isBuyer === true) ? true : false);
+            self.buyhistory = ((self.$route.query.buyhistory === 'true' || self.$route.query.buyhistory === true) ? true : false);
             setTimeout(function () {
                 var demoLatLng = {
                     lat: -25.363,

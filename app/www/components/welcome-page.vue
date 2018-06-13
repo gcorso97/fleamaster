@@ -35,7 +35,7 @@
                     </md-card-actions>
                 </md-card>
             </div>
-            <div v-if="dashboardInfo.article && dashboardInfo.article.id">
+            <div v-if="dashboardInfo.article && dashboardInfo.article.id"  @click="openArticle(dashboardInfo.article.id)">
                 <p class="md-headline recommendation-title">Empfehlung des Tages</p>
                 <md-card md-with-hover>
                     <md-ripple>
@@ -90,6 +90,9 @@
                         isBuyer: isBuyer
                     }
                 });
+            },
+            openArticle: function(id) {
+                this.$router.push({path: 'product', query: {id: id}});
             }
         },
         created: function () {
