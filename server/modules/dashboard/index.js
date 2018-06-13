@@ -4,7 +4,7 @@ var srv_error = require('./../../srv_error.json'),
 /**
  * Retrieves dashboard information for current user
  * NOTE: Fetches the total count of bought and sold products and retrieves a random purchasable article
- * @param {String} user the user id
+ * @param {Number} user the user id
  * @param {Function} callback callback function
  */
 let getDashboardInfo = (user, callback) => {

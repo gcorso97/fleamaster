@@ -13,7 +13,7 @@ let getCategories = (callback) => {
 
 /**
  * Adds new article to database for given article object
- * @param {String} user the user id
+ * @param {Number} user the user id
  * @param {Object} articleObj the article object containing information about the article to add
  * @param {Function} callback callback function
  */
@@ -26,7 +26,7 @@ let addArticle = (user, articleObj, callback) => {
 
 /**
  * Adds picture of given base64 decoded picture and saves it to the server filesystem
- * @param {String} id the article id which will be used as filename
+ * @param {Number} id the article id which will be used as filename
  * @param {String} file the base64 string of submitted file from client
  * @param {Function} callback callback function
  */
@@ -45,7 +45,7 @@ let addPicture = (id, file, callback) => {
 
 /**
  * Retrieves articles from databases that matches optional search term
- * @param {String} user the user id
+ * @param {Number} user the user id
  * @param {Object} [searchObj] optional search object containing search terms such as title to search for
  * @param {Function} callback callback function
  */
@@ -61,7 +61,7 @@ let getArticles = (user, searchObj, callback) => {
 
 /**
  * Retrieves articles from database that were created from user
- * @param {String} user the user id
+ * @param {Number} user the user id
  * @param {Function} callback callback function
  */
 let getSoldArticles = (user, callback) => {
@@ -70,7 +70,7 @@ let getSoldArticles = (user, callback) => {
 
 /**
  * Retrieves articles from database that were bought from user
- * @param {String} user the user id
+ * @param {Number} user the user id
  * @param {Function} callback callback function
  */
 let getBoughtArticles = (user, callback) => {
@@ -79,7 +79,7 @@ let getBoughtArticles = (user, callback) => {
 
 /**
  * Retrieves article from database for given article id
- * @param {String} article the article id
+ * @param {Number} article the article id
  * @param {Function} callback callback function
  */
 let getArticle = (article, callback) => {
@@ -89,8 +89,8 @@ let getArticle = (article, callback) => {
 /**
  * Buys given article
  * NOTE: User can only buy not own created articles and articles, that aren't bought from others
- * @param {String} user the user id
- * @param {String} article the article id
+ * @param {Number} user the user id
+ * @param {Number} article the article id
  * @param {Function} callback callback function
  */
 let buyArticle = (user, article, callback) => {
@@ -107,8 +107,8 @@ let buyArticle = (user, article, callback) => {
 /**
  * Deletes article from database for given article id
  * NOTE: User can only remove articles created by themself
- * @param {String} user the user id
- * @param {String} article the article id
+ * @param {Number} user the user id
+ * @param {Number} article the article id
  * @param {Function} callback callback function
  */
 let deleteArticle = (user, article, callback) => {
