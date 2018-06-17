@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "pretest": "npm run createEnv",
-    "test": "mocha tests/*",
+    "test": "mocha --exit tests/*",
     "start": "node server.js",
     "createEnv": "/bin/bash createEnv.sh"
   },

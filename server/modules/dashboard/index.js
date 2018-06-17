@@ -12,13 +12,13 @@ let getDashboardInfo = (user, callback) => {
     db.query('SELECT COUNT(*) AS bought FROM article WHERE user !=? AND buyer=?', [user, user], (err, boughtRes) => {
         if (!err && boughtRes) {
             // retrieve total sold products
-            db.query('SELECT COUNT(*) AS sold FROM article WHERE user=?', [user], (err, soldRes) => {
+            db.query('SELECT COUNT(*) AS sold FROM article WHERE user=? AND buyer IS NOT NULL', [user], (err, soldRes) => {
                 if (!err && soldRes) {
                     // retrieve random article
                     db.query('SELECT * FROM article WHERE user !=? AND buyer IS NULL ORDER BY RAND() LIMIT 1', [user], (err, randomRes) => {
                         if (!err && randomRes) {
                             callback(null, {
-                                bought: ((boughtRes[0])? boughtRes[0].bought || 0 : 0), 
+                                bought: ((boughtRes[0])? boughtRes[0].bought || 0 : 0),
                                 sold: ((soldRes[0])? soldRes[0].sold || 0 : 0),
                                 article: randomRes[0] || {}
                             });
