@@ -100,6 +100,7 @@
                                     // attach the destination
                                     articleObj.distance = locationResponse.body.distance;
                                     articles.push(articleObj);
+                                    if(!response.body.articles || !response.body.articles.length) self.loading = false;
                                     if(++processedArticles === response.body.articles.length) {
                                         self.loading = false;
                                         self.items = articles;
@@ -107,6 +108,7 @@
                                 }, function(error) {
                                     // location could not be resolved
                                     articles.push(articleObj);
+                                    if(!response.body.articles || !response.body.articles.length) self.loading = false;
                                     if(++processedArticles === response.body.articles.length) {
                                         self.loading = false;
                                         self.items = articles;
