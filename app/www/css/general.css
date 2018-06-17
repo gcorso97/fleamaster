@@ -41,10 +41,6 @@
     align-items: center;
     justify-content: center;
 }
-
-.md-content {
-    margin: 30px;
-}
 .close-navigation-button {
   position: absolute;
   right: 16px;
