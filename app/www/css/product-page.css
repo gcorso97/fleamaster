@@ -5,3 +5,14 @@
 .product-image img {
     max-height: 30vh;
 }
+.md-subheading.location-heading {
+    margin-bottom: 16px;
+    padding-top: 16px;
+}
+.location-icon {
+    position: absolute;
+    right: 0;
+}
+.location-icon i.md-icon.md-theme-default.md-icon-font {
+    color: #448aff;
+}

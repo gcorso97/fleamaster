@@ -50,9 +50,6 @@
                         </md-card-header>
                         <md-card-actions>
                             <span><b>{{dashboardInfo.article.price}}€</b></span>
-                            <md-button>
-                                <md-icon class="md-primary">shopping_cart</md-icon>
-                            </md-button>
                         </md-card-actions>
                     </md-ripple>
                 </md-card>

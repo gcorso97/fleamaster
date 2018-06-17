@@ -26,7 +26,12 @@
                     <md-card-content>{{article.description}}</md-card-content>
                 </md-card-area>
                 <md-card-content>
-                    <h3 class="md-subheading" v-if="distance">Standort</h3>
+                    <div>
+                        <md-button class="location-icon" @click="navigate()" v-if="isMobile">
+                            <md-icon>navigation</md-icon>
+                        </md-button>
+                        <h3 class="md-subheading location-heading" v-if="distance">Standort</h3>
+                    </div>
                     <div id="map" ref="map"></div>
                 </md-card-content>
             </md-card>
@@ -50,6 +55,8 @@
                 buyhistory: false,
                 imgURL: RESTURL,
                 distance: '',
+                coords: {},
+                isMobile: (typeof window.cordova !== 'undefined')
             }
         },
         components: {
@@ -69,6 +76,13 @@
                     console.log(error);
                     self.loading = false;
                 });
+            },
+            navigate: function() {
+                var self = this;
+
+                if(typeof window.launchnavigator !== 'undefined' && self.coords.lat && self.coords.lng) {
+                    launchnavigator.navigate([self.coords.lat, self.coords.lng]);
+                }
             }
         },
         created: function () {
@@ -107,6 +121,7 @@
                             });
                             self.distance = response.body.distance;
                             self.$refs.map.hidden = false;
+                            self.coords = {lat: response.body.lat, lng: response.body.lng};
                         } else self.$refs.map.hidden = true;
                     }, function(error) {
                         self.loading = false;
