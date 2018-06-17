@@ -82,6 +82,7 @@
                     processedArticles = 0;
 
                 self.loading = true;
+                self.items = [];
                 self.isBuyer = ((self.$route.query.isBuyer === 'true' || self.$route.query.isBuyer === true) ? true : false);
 
                 self.$http.get(RESTURL + ((self.isBuyer) ? ((self.buyhistory)? '/boughtarticles' : '/articles') : '/soldarticles'), {}).then(function (response) {
