@@ -13,6 +13,9 @@
 .half-cards .half-card {
     width: 50%;
 }
+.md-card-media img {
+    max-height: 80px;
+}
 
 @media (max-width: 800px) {
     .half-cards {
