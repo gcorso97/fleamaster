@@ -100,7 +100,6 @@
                                     // attach the destination
                                     articleObj.distance = locationResponse.body.distance;
                                     articles.push(articleObj);
-                                    if(!response.body.articles || !response.body.articles.length) self.loading = false;
                                     if(++processedArticles === response.body.articles.length) {
                                         self.loading = false;
                                         self.items = articles;
@@ -108,7 +107,6 @@
                                 }, function(error) {
                                     // location could not be resolved
                                     articles.push(articleObj);
-                                    if(!response.body.articles || !response.body.articles.length) self.loading = false;
                                     if(++processedArticles === response.body.articles.length) {
                                         self.loading = false;
                                         self.items = articles;
@@ -119,7 +117,7 @@
                             self.loading = false;
                             console.error(err); // TODO show dialog that location could not be resolved (permission denied?) + Cordova Plugin GeoLocation
                         }, {enableHighAccuracy: true});
-                    }
+                    } else self.loading = false;
                 }, function (error) {
                     console.error(error);
                     self.loading = false;
