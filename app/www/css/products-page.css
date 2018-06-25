@@ -1,7 +1,21 @@
 li.md-list-item.product-list {
     border-bottom: 1px solid #ddd;
 }
+li.md-list-item.product-list.sold-item {
+    background: #e2ffc5;
+}
 .md-speed-dial.md-bottom-right.add-product-speed-dial-btn {
     position: fixed;
     z-index: 2;
+}
+.location-icon-pin {
+    position: absolute;
+    right: 8px;
+    top: 0;
+}
+.location-icon-pin i {
+    font-size: 16px!important;
+}
+.location-icon-pin span {
+    font-size: 14px;
 }

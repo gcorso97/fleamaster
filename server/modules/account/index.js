@@ -69,7 +69,7 @@ let login = (mail, password, callback) => {
 
 /**
  * Retrieves user from database for given user id
- * @param {String} user the user id
+ * @param {Number} user the user id
  * @param {Function} callback callback function
  */
 let getUser = (user, callback) => {
@@ -79,7 +79,7 @@ let getUser = (user, callback) => {
 
 /**
  * Updates the current user within database with the new data
- * @param {String} user the user id
+ * @param {Number} user the user id
  * @param {Object} userObj the user object containing the new data to apply
  * @param {Function} callback callback function
  */
@@ -92,7 +92,7 @@ let updateUser = (user, userObj, callback) => {
 
 /**
  * Changes the password for the given user
- * @param {String} user the user id
+ * @param {Number} user the user id
  * @param {String} password the new password to set
  * @param {Function} callback callback function
  */

@@ -1,5 +1,6 @@
 node_modules/
 app/platforms/
+app/plugins/
 app/node_modules/
 app/www/js/bundle.js
 app/www/css/bundle.css

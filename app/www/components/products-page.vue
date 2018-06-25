@@ -12,26 +12,25 @@
         </md-toolbar>
         <Sidebar v-bind:showSidebar="showSidebar" v-on:hide-sidebar="showSidebar=false"></Sidebar>
         <md-content>
-            <md-dialog-confirm :md-active.sync="confirmationDialog" md-title="Produkt kaufen?" md-content="Du bist gerade dabei, das Produkt zu kaufen. Bitte <b>bestätige</b> den Kauf kurz."
-                md-confirm-text="Produkt kaufen" md-cancel-text="Abbrechen" @md-confirm="onConfirm" @md-cancel="onCancel" />
             <md-empty-state v-if="!isBuyer && !items.length" md-icon="store" md-label="Noch nichts verkauft" md-description="Ein Produkt selbst anzubieten ist einfach. Probiere es doch mal direkt aus!">
                 <md-button @click="addItem" class="md-primary md-raised">Produkt anbieten</md-button>
             </md-empty-state>
             <div>
                 <div v-if="items.length">
                     <md-list class="md-double-line">
-                        <md-list-item v-for="(item, index) in items" :key="index" class="product-list">
+                        <md-list-item v-for="(item, index) in items" :key="index" class="product-list" @click="openItem(item.id)" v-bind:class="{'sold-item': (item.buyer)}">
                             <md-avatar>
-                                <img src="https://placeimg.com/40/40/people/1" alt="People">
+                                <img :src="imgURL + '/' + item.id + '.png'" alt="Produktbild" onerror="this.src='img/logo.png'">
                             </md-avatar>
                             <div class="md-list-item-text">
                                 <span>{{ item.title}}</span>
                                 <span>{{ item.description}}</span>
                             </div>
-                            <span>{{ item.price}} €</span>
-                            <md-button class="md-icon-button md-list-action" v-if="isBuyer && !buyhistory" @click="confirmationDialog=true; selectedProduct=item.id">
-                                <md-icon class="md-primary">shopping_cart</md-icon>
-                            </md-button>
+                            <div class="md-subhead location-icon-pin" v-if="isBuyer && !buyhistory && item.distance">
+                                <md-icon>location_on</md-icon>
+                                <span>{{item.distance}}</span>
+                            </div>
+                            <span><b>{{ item.price}}€</b></span>
                         </md-list-item>
                         <md-list>
                 </div>
@@ -59,58 +58,78 @@
     export default {
         data: function () {
             return {
-                loading: true,
+                loading: false,
                 showSidebar: false,
                 isBuyer: false,
                 items: [],
-                confirmationDialog: false,
-                selectedProduct: false,
-                buyhistory: false
+                buyhistory: false,
+                imgURL: RESTURL
             }
         },
         components: {
             Sidebar: Sidebar
         },
+        watch: {
+            '$route.query': 'getItems'
+        },
         methods: {
-            onCancel: function () {
-                this.selectedProduct = false;
-            },
-            onConfirm: function () {
-                var self = this;
-
-                self.loading = true;
-                self.$http.post(RESTURL + '/buy', {
-                    id: self.selectedProduct
-                }).then(function () {
-                    self.loading = false;
-                    self.getItems();
-                }, function (error) {
-                    console.log(error);
-                    self.loading = false;
-                });
-            },
             addItem: function () {
                 this.$router.push('addItem');
             },
             getItems: function () {
-                var self = this;
+                var self = this,
+                    articles = [],
+                    processedArticles = 0;
 
                 self.loading = true;
+                self.items = [];
+                self.isBuyer = ((self.$route.query.isBuyer === 'true' || self.$route.query.isBuyer === true) ? true : false);
+
                 self.$http.get(RESTURL + ((self.isBuyer) ? ((self.buyhistory)? '/boughtarticles' : '/articles') : '/soldarticles'), {}).then(function (response) {
-                    self.loading = false;
-                    self.items = response.body.articles;
+                    // retrieve distance for each article
+                    if(response.body.articles && response.body.articles.length) {
+                        // get current position
+                        navigator.geolocation.getCurrentPosition(function(positionObj) {
+                            response.body.articles.forEach(function(articleObj) {
+                                self.$http.get(RESTURL + '/location', {
+                                    params: {
+                                        article: articleObj.id,
+                                        lat: positionObj.coords.latitude,
+                                        lng: positionObj.coords.longitude
+                                    }
+                                }).then(function(locationResponse) {
+                                    // attach the destination
+                                    articleObj.distance = locationResponse.body.distance;
+                                    articles.push(articleObj);
+                                    if(++processedArticles === response.body.articles.length) {
+                                        self.loading = false;
+                                        self.items = articles;
+                                    }
+                                }, function(error) {
+                                    // location could not be resolved
+                                    articles.push(articleObj);
+                                    if(++processedArticles === response.body.articles.length) {
+                                        self.loading = false;
+                                        self.items = articles;
+                                    }
+                                });
+                            });
+                        }, function(err) {
+                            self.loading = false;
+                            console.error(err); // TODO show dialog that location could not be resolved (permission denied?) + Cordova Plugin GeoLocation
+                        }, {enableHighAccuracy: true});
+                    } else self.loading = false;
                 }, function (error) {
                     console.error(error);
                     self.loading = false;
                 });
+            },
+            openItem: function(id) {
+                this.$router.push({path: 'product', query: {id: id, isBuyer: this.isBuyer, buyhistory: this.buyhistory}});
             }
         },
         created: function () {
-            var self = this;
-
-            self.isBuyer = ((self.$route.query.isBuyer === 'true' || self.$route.query.isBuyer === true) ? true :
-                false);
-            self.getItems();
+            this.getItems();
         }
     }
 </script>

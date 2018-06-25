@@ -8,7 +8,8 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     account = require('./modules/account'),
     articles = require('./modules/articles'),
-    dashboard = require('./modules/dashboard');
+    dashboard = require('./modules/dashboard'),
+    maps = require('./modules/maps');
 
 // session handling
 app.use(session({
@@ -59,6 +60,7 @@ app.get('/article', articles.getArticle);
 app.delete('/article', articles.deleteArticle);
 app.post('/buy', articles.buyArticle);
 app.get('/dashboard', dashboard.getDashboardInfo);
+app.get('/location', maps.getLocation);
 
 // requested route not found
 app.use((req, res) => {

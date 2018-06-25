@@ -17,8 +17,8 @@
                     </md-field>
                     <md-field>
                         <label>Wähle eine Kategorie</label>
-                        <md-select v-for="(category, index) in categories" :key="index" v-model="item.category" required>
-                            <md-option :value="category.id">{{category.name}}</md-option>
+                        <md-select required v-model="item.category">
+                            <md-option v-for="(category, index) in categories" :key="index" :value="category.id">{{category.name}}</md-option>
                         </md-select>
                     </md-field>
                     <md-field>
@@ -26,7 +26,7 @@
                         <md-textarea type="textarea" v-model="item.description"></md-textarea>
                     </md-field>
                     <md-field>
-                        <md-input v-model="item.price" id="price" type="number" min=1 max=9999 placeholder="Verkaufspreis" required/>
+                        <md-input v-model="item.price" id="price" type="number" min=1 max=9999 placeholder="Verkaufspreis *" required/>
                     </md-field>
                     <md-field>
                         <label>Produktbild</label>
@@ -37,6 +37,9 @@
                     <md-button class="actions md-raised md-primary" @click="addItem">Anbieten</md-button>
                 </md-card-actions>
             </form>
+            <div class="loading-overlay" v-if="loading">
+                <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
+            </div>
         </md-content>
         <transition name="fade">
             <router-view></router-view>
@@ -57,6 +60,7 @@
                     price: '',
                     file: ''
                 },
+                loading: false,
                 showSidebar: false,
                 categories: [],
                 articleError: false
@@ -72,8 +76,16 @@
                 if(typeof window.FileReader !== 'undefined' && fileList && fileList[0]) {
                     var reader = new FileReader();
 
+                    self.loading = true;
+
                     reader.onloadend = function() {
                         self.item.file = reader.result;
+                        self.loading = false;
+                    };
+
+                    reader.onerror = function(e) {
+                        self.loading = false;
+                        console.error(e);
                     };
 
                     reader.readAsDataURL(fileList[0]);
@@ -85,18 +97,16 @@
             addItem: function () {
                 var self = this;
 
+                self.loading = true;
                 self.$http.post(RESTURL + '/article', {
                     article: self.item
                 }).then(function (response) {
                     // go back to products sell page
-                    self.$router.push({
-                        path: 'products',
-                        query: {
-                            isBuyer: false
-                        }
-                    });
+                    self.loading = false;
+                    self.$router.push({path: 'products', query: {isBuyer: false}});
                 }, function (error) {
                     self.articleError = true;
+                    self.loading = false;
                 });
             }
         },

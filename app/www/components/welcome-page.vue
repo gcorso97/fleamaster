@@ -35,7 +35,7 @@
                     </md-card-actions>
                 </md-card>
             </div>
-            <div v-if="dashboardInfo.article && dashboardInfo.article.id">
+            <div v-if="dashboardInfo.article && dashboardInfo.article.id"  @click="openArticle(dashboardInfo.article.id)">
                 <p class="md-headline recommendation-title">Empfehlung des Tages</p>
                 <md-card md-with-hover>
                     <md-ripple>
@@ -45,14 +45,11 @@
                                 <div class="md-subhead">{{dashboardInfo.article.description}}</div>
                             </md-card-header-text>
                             <md-card-media>
-                                <img src="https://placeimg.com/40/40/people/1" alt="Produktbild">
+                                <img :src="imgURL + '/' + dashboardInfo.article.id + '.png'" alt="Produktbild" onerror="this.src='img/logo.png'">
                             </md-card-media>
                         </md-card-header>
                         <md-card-actions>
                             <span><b>{{dashboardInfo.article.price}}€</b></span>
-                            <md-button>
-                                <md-icon class="md-primary">shopping_cart</md-icon>
-                            </md-button>
                         </md-card-actions>
                     </md-ripple>
                 </md-card>
@@ -75,7 +72,8 @@
             return {
                 loading: true,
                 showSidebar: false,
-                dashboardInfo: {}
+                dashboardInfo: {},
+                imgURL: RESTURL
             }
         },
         components: {
@@ -89,6 +87,9 @@
                         isBuyer: isBuyer
                     }
                 });
+            },
+            openArticle: function(id) {
+                this.$router.push({path: 'product', query: {id: id}});
             }
         },
         created: function () {

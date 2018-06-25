@@ -2,40 +2,42 @@
     <div id="registrationPage" class="page-container md-layout-column">
         <md-content class="md-elevation-3">
             <form @submit.prevent="register">
-                <div id="logoImage" class="centered"></div>
-                <md-card-content>
-                    <md-field>
-                        <label>Vorname</label>
-                        <md-input autofocus type="text" v-model="user.firstname" required/>
-                    </md-field>
-                    <md-field>
-                        <label>Nachname</label>
-                        <md-input autofocus type="text" v-model="user.lastname" required/>
-                    </md-field>
-                    <md-field>
-                        <label>Straße + Hausnummer</label>
-                        <md-input autofocus type="text" v-model="user.street" required/>
-                    </md-field>
-                    <md-field>
-                        <label>Postleitzahl</label>
-                        <md-input autofocus type="text" v-model="user.zipcode" required/>
-                    </md-field>
-                    <md-field>
-                        <label>Ort</label>
-                        <md-input autofocus type="text" v-model="user.city" required/>
-                    </md-field>
-                    <md-field>
-                        <label>E-Mail</label>
-                        <md-input autofocus type="text" v-model="user.mail" required v-on:input="validateRegistration" />
-                    </md-field>
-                    <md-field>
-                        <label>Passwort</label>
-                        <md-input autofocus type="password" v-model="user.password" required v-on:input="validateRegistration" />
-                    </md-field>
-                </md-card-content>
-                <md-card-actions>
-                    <md-button id="registerBtn" @click="register" class="md-raised md-primary" disabled>Submit</md-button>
-                </md-card-actions>
+                <md-steppers :md-active-step.sync="active" md-linear>
+                    <md-step id="first" md-label="Anmeldedaten" :md-done.sync="first" :md-error="firstStepError" :md-editable="false">
+                        <md-field>
+                            <label>E-Mail</label>
+                            <md-input autofocus type="text" v-model="user.mail" required />
+                        </md-field>
+                        <md-field>
+                            <label>Passwort</label>
+                            <md-input autofocus type="password" v-model="user.password" required />
+                        </md-field>
+                        <md-button class="md-raised md-primary" @click="setDone('first', 'second')">Weiter</md-button>
+                    </md-step>
+                    <md-step id="second" md-label="Persönliche Daten" :md-done.sync="second" :md-error="secondStepError" :md-editable="false">
+                        <md-field>
+                            <label>Vorname</label>
+                            <md-input autofocus type="text" v-model="user.firstname" required/>
+                        </md-field>
+                        <md-field>
+                            <label>Nachname</label>
+                            <md-input autofocus type="text" v-model="user.lastname" required/>
+                        </md-field>
+                        <md-field>
+                            <label>Straße + Hausnummer</label>
+                            <md-input autofocus type="text" v-model="user.street" required/>
+                        </md-field>
+                        <md-field>
+                            <label>Postleitzahl</label>
+                            <md-input autofocus type="text" v-model="user.zipcode" required/>
+                        </md-field>
+                        <md-field>
+                            <label>Ort</label>
+                            <md-input autofocus type="text" v-model="user.city" required/>
+                        </md-field>
+                        <md-button @click="setDone('second')" class="md-raised md-primary">Registrieren</md-button>
+                    </md-step>
+                </md-steppers>
             </form>
         </md-content>
         <transition name="fade">
@@ -57,19 +59,32 @@
                     mail: '',
                     password: ''
                 },
+                active: 'first',
+                firstStepError: '',
+                secondStepError: '',
                 regExpMail: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             };
         },
 
         methods: {
-            validateRegistration: function () {
+            setDone: function(id, index) {
                 var self = this,
-                    mailOk = self.validEmail(self.user.mail),
-                    passwordOk = self.validPassword(self.user.password);
-                if (mailOk && passwordOk) {
-                    registerBtn.disabled = false;
-                } else {
-                    registerBtn.disabled = true;
+                    proceed = function() {
+                        self[id] = true;
+                        self.firstStepError = self.secondStepError = '';
+                        if(index) self.active = index;
+                    };
+
+                if(id === 'first') {
+                    // validate registration
+                    if(self.validEmail(self.user.mail) && self.validPassword(self.user.password)) proceed();
+                    else self.firstStepError = 'Überprüfe die Daten.';
+                } else if(id === 'second') {
+                    // validate inputs
+                    if(self.user.firstname && self.user.lastname && self.user.street && self.user.zipcode && self.user.city) {
+                        // register account
+                        self.register();
+                    } else self.secondStepError = 'Überprüfe die Daten.';
                 }
             },
             validEmail: function (email) {
@@ -94,10 +109,10 @@
                 self.$http.post(RESTURL + '/register', {
                     user: self.user
                 }).then(function (response) {
-                    console.log(response);
                     self.navigateBack();
                 }, function (response) {
                     console.error(response);
+                    self.secondStepError = 'Da ist was schief gelaufen.';
                 });
             }
         }

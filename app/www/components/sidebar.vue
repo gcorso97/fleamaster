@@ -19,7 +19,7 @@
                 <md-icon>store</md-icon>
                 <span class="md-list-item-text">Produkte verkaufen</span>
             </md-list-item>
-            <md-list-item>
+            <md-list-item @click="profilePage()">
                 <md-icon>person</md-icon>
                 <span class="md-list-item-text">Profil</span>
             </md-list-item>
@@ -47,8 +47,12 @@
             welcomePage: function() {
                 this.$router.push('/welcome');
             },
+            profilePage: function() {
+                this.$router.push('/profile');
+            },
             productsPage: function(isBuyer) {
                 this.$router.push({path: 'products', query: {isBuyer: isBuyer}});
+                this.$emit('hide-sidebar');
             },
             logout: function () {
                 var self = this;
